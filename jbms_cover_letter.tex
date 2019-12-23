@@ -1,0 +1,158 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Professional Formal Letter
+% LaTeX Template
+% Version 1.0 (28/12/13)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Brian Moses (http://www.ms.uky.edu/~math/Resources/Templates/LaTeX/)
+% with extensive modifications by Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt,a4paper]{letter} % Specify the font size (10pt, 11pt and 12pt) and paper size (letterpaper, a4paper, etc)
+
+\usepackage{graphicx} % Required for including pictures
+\usepackage{microtype} % Improves typography
+\usepackage{gfsdidot} % Use the GFS Didot font: http://www.tug.dk/FontCatalogue/gfsdidot/
+\usepackage[T1]{fontenc} % Required for accented characters
+
+% Create a new command for the horizontal rule in the document which allows thickness specification
+\makeatletter
+\def\vhrulefill#1{\leavevmode\leaders\hrule\@height#1\hfill \kern\z@}
+\makeatother
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT MARGINS
+%----------------------------------------------------------------------------------------
+
+\textwidth 6.75in
+\textheight 9.25in
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\topmargin -1in
+\longindentation 0.50\textwidth
+\parindent 0.4in
+
+%----------------------------------------------------------------------------------------
+%	SENDER INFORMATION
+%----------------------------------------------------------------------------------------
+
+\def\Who{Van-Hoang Nguyen} % Your name
+\def\What{, Mr} % Your title
+\def\Where{School of Computing} % Your department/institution
+\def\Address{13 Computing Drive} % Your address
+\def\CityZip{Singapore 117417} % Your city, zip code, country, etc
+\def\Email{E-mail: vhnguyen@u.nus.edu} % Your email address
+\def\TEL{Phone: (+65) 8306-8667} % Your phone number
+\def\URL{} % Your URL
+
+%----------------------------------------------------------------------------------------
+%	HEADER AND FROM ADDRESS STRUCTURE
+%----------------------------------------------------------------------------------------
+
+\address{
+\includegraphics[width=1in]{nus_logo.png} % Include the logo of your institution
+\hspace{5.1in} % Position of the institution logo, increase to move left, decrease to move right
+\vskip -1.07in~\\ % Position of the text in relation to the institution logo, increase to move down, decrease to move up
+\Large\hspace{1.5in}NATIONAL UNIVERSITY \hfill ~\\[0.05in] % First line of institution name, adjust hspace if your logo is wide
+\hspace{1.5in}OF SINGAPORE \hfill \normalsize % Second line of institution name, adjust hspace if your logo is wide
+\makebox[0ex][r]{\bf \Who \What }\hspace{0.08in} % Print your name and title with a little whitespace to the right
+~\\[-0.11in] % Reduce the whitespace above the horizontal rule
+\hspace{1.5in}\vhrulefill{1pt} \\ % Horizontal rule, adjust hspace if your logo is wide and \vhrulefill for the thickness of the rule
+\hspace{\fill}\parbox[t]{2.85in}{ % Create a box for your details underneath the horizontal rule on the right
+\footnotesize % Use a smaller font size for the details
+\Who \\ \em % Your name, all text after this will be italicized
+\Where\\ % Your department
+\Address\\ % Your address
+\CityZip\\ % Your city and zip code
+\TEL\\ % Your phone number
+\Email\\ % Your email address
+\URL % Your URL
+}
+\hspace{-1.4in} % Horizontal position of this block, increase to move left, decrease to move right
+\vspace{-1in} % Move the letter content up for a more compact look
+}
+
+%----------------------------------------------------------------------------------------
+%	TO ADDRESS STRUCTURE
+%----------------------------------------------------------------------------------------
+
+\def\opening#1{\thispagestyle{empty}
+{\centering\fromaddress \vspace{0.6in} \\ % Print the header and from address here, add whitespace to move date down
+\hspace*{\longindentation}\today\hspace*{\fill}\par} % Print today's date, remove \today to not display it
+{\raggedright \toname \\ \toaddress \par} % Print the to name and address
+\vspace{0.4in} % White space after the to address
+\noindent #1 % Print the opening line
+% Uncomment the 4 lines below to print a footnote with custom text
+%\def\thefootnote{}
+%\def\footnoterule{\hrule}
+%\footnotetext{\hspace*{\fill}{\footnotesize\em Footnote text}}
+%\def\thefootnote{\arabic{footnote}}
+}
+
+%----------------------------------------------------------------------------------------
+%	SIGNATURE STRUCTURE
+%----------------------------------------------------------------------------------------
+
+\signature{\Who \What} % The signature is a combination of your name and title
+
+\long\def\closing#1{
+\vspace{0.1in} % Some whitespace after the letter content and before the signature
+\noindent % Stop paragraph indentation
+\hspace*{\longindentation} % Move the signature right
+\parbox{\indentedwidth}{\raggedright
+#1 % Print the signature text
+\vskip 0.65in % Whitespace between the signature text and your name
+\fromsig}} % Print your name and title
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TO ADDRESS
+%----------------------------------------------------------------------------------------
+
+\begin{letter}
+% {Prof. Jones\\
+% Mathematics Search Committee\\
+% Department of Mathematics\\
+% University of California\\
+% Berkeley, California 12345\\
+% }
+{}
+%----------------------------------------------------------------------------------------
+%	LETTER CONTENT
+%----------------------------------------------------------------------------------------
+\small
+\opening{Dear Special Issue Editors,}
+
+First, thank you for allowing us to have an extension to the timeline to make the required revisions for your consideration.  We would like to thank the reviewers for their careful assessment of the work and are pleased to react to the critical comments that have been raised.  We are writing this cover letter for our JBMS submission to give a detailed explanation on how we addressed the major comments from JBMS reviewers as well as how we have extended our work with respect to the LOUHI manuscript. We now thus briefly recap the major issues raised by the reviewers and our edits, accordingly. Other minor and typographical errors have been handled.
+
+%Kaz-CL: ``a reviewer'' should be ``Reviewer 1'', and ``another reviewer'' also should be ``Reviewer 2''. 
+First, we addressed a major ask for stricter credibility definition and evaluation raised by Reviewer~1 in Comment~1, Reviewer~2 in Comment~3, and Reviewer~3 in Comment~1. We discussed the need to consider credibility in large scale knowledge harvesting from user generated content in the 2nd paragraph of Background section. Previous works on side effect discovery from individual statement or post derive information credibility by verifying a statement's mentioned side effects against ground truth drug -- side effect databases, and user credibility by measuring the percentage of her credible statement. Our approach to side effect discovery from discussion content by jointly model multiple posts and their authors does not derive statement credibility and derives user credibility differently. We assign each user a positive credibility score that is used to weight their post content in representing the discussion content. Such weighted summation is mathematically shown in the Appendix to conform to the general principle of truth discovery. Although our dataset does not provide any ground truth for credibility, we measure the approximation of the scores assigned by our model to credibility proxy of the number of ``thanks'' a user received from other forum members. We find this issue regarding credibility greatly valid and has incorporate our response in Related Work section, under User Credibility and Expertise.
+
+Second, we justified the need for neural approaches questioned by Reviewer~1 in Comment~2 and Reviewer~2 in Comment~4. Recent neural approaches address lexical variation in user-generated content -- the difficulty faced by traditional keyword matching and rule-based approaches -- and has become the recent state-of-the-art in ADR extraction by the works of Ding \textit{et al.} (2018) and Ramamoorthy \textit{et al.} (2018). Furthermore, as our tasks seek to holistically represent the larger discussion content, neural networks are more capable at modeling long-term dependencies and have been used extensively in solving Community Question Answering by the works of Qiu \textit{et al.} (2015) and Zhang \textit{et al.} (2017). Another advantages of neural architecture is their modular design. In this revision, we highlighted the consistent improvement of NEAT across two different neural encoders, LSTM and CNN. The rapid advances of NLP have brought and will bring about better text encoders, such as the Transformer by Vaswani \textit{et al.} (2017), in which case these state-of-the-art can easily be integrated into our proposed architecture with little modification effort and still observe similar performance improvement. We find this issue regarding credibility greatly valid and has incorporate our response in Related Work section, under Modeling Objects in Online Communities.
+
+Third, we justified the implementation of attention mechanism questioned by Reviewer~2 in Comment~2. Attention is widely adopted in many sequence modeling applications, such as machine translation by Vaswani \textit{et al.} (2017) and question answering by Seo \textit{et al.} (2016), as it captures long term semantic dependencies by learning to focus on essential text segments. This feature is not only effectively for text encoding but also potentially useful for mentioned adverse drug reaction (ADR) extraction. In this revision we examine if the attention output by our model is indicative of the mentioned correct side effects and provides a baseline for ADR extraction. The experiments comparing our proposed model and baselines in ADR extraction also address the question for statistical evidence raised by Reviewer~1 in Comment~13. 
+
+Fourth, we justified the meaningfulness of user clustering questioned by Reviewer~1 in Comment~5. As there is no label for the correct grouping, we employed unsupervised metrics of silhouette score to measure how well users are matched to their own groups and separated from other groups. Additionally, we provide most common side effects experienced in each cluster for observation.
+
+Finally, we implemented additional baselines suggested by Reviewer~1 in Comment~8, Comment~10, Comment~13, Comment~16. Specifically, we reported the performance of algorithms when taking CW, UE, and CA individually in the appendix. We also included extra experiments on side effect discovery of undiscussed drugs with two baseline: randomized users and Random Forest with Bag-of-word features in section 5.4. To verify the representativeness of the learned credibility, we report the Spearman coefficient and nDCG@2 using number of ``thanks'' as the proxy for trustworthiness in section 5.3. We also revised our implementation with changes to our set of side effect, therefore, we updated our experiment results. The updated results are consistent with our reported findings in the previous submission.
+
+\closing{Sincerely,}
+
+%----------------------------------------------------------------------------------------
+
+\end{letter}
+\end{document}

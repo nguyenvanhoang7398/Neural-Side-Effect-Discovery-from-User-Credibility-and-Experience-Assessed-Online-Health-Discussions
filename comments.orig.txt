@@ -1,0 +1,108 @@
+Reviewer reports:
+
+Reviewer #1:
+The work is interesting in the field but I have the following concerns:
+
+1. In page 2 author mention "trustworthy user-generated content", what does this mean? what is trustworthy? Does it have labels or scales on how to ensure trustworthiness?
+
+2. In page 2  author mention "quality of user-generated content", what is the meaning of quality in the scenario of user-generated content. In the online world of social media, it is believed to be noisy, in such setting who can check this quality, particularly in a health-based discussion forum?
+
+3. "We build neural architecture"- Why we need this? why not other simpler models? What is the motivation of this? The justification is not convincing. The author jumps to the solution approach without clearly describing the problem.
+
+4. In the task definition, what does the binary side effect label vector means? I could not get this?
+
+5. In a User Clustering section author mention "Set of meaning cluster C", how can one ensure the meaningful cluster? how does the author know the clusters are meaningful? The author should provide statistical evidence of meaningful clusters.
+
+6. The author proposed a model which has a very marginal improvement over the state of the art methods. Are these improvements really significant?
+
+7. In a situation like side effects prediction finding correctly predicting positive label is important, which means the metric like AUC-PR would have been very useful. From precision, perspective WPE has outperformed all the other algorithms. This means (WPE+ Credibility weights) demonstrated better performance for correctly classifying side effect labels, then why we need your proposed model which takes 3 components (CW+UE+CA) and still perform less accurate in terms of precision.
+
+8. The author should report the performance of algorithms by taking CW, UE, and CA individually. This is because it is not clear the contribution of these components for the performance in accuracy.
+
+9. Can (CW + UE + CA) all three components be incorporated in WPE ? If so then the performance of WPE should also be demonstrated?
+
+10. Since this is a multilabel prediction problem the author should compare (i) random baseline (ii) the baseline supervised model such as simple SVM or any model of author's choice taking word features as a "bag-words" and report the performance as a simple baseline.
+
+11. The author has not done the significance test for the result reported in Table 4. Are these 10 fold cross validation scores from the authors model significantly different than the baseline methods? Simple t-test reporting p-values should help.
+
+12. In a "Microscopic Analysis" how does the author gather these sample in Table 6?  Are these sample randomly picked from a test set? What is the significance of the per sample prediction based on credibility score?
+
+13. If the side-effects labels are randomized what is the probability of predicting the same prediction close to Ground Truth using author's proposed model please report the statistical significance of the per sample prediction in Table 6.
+
+14. The author should provide the xlsx sheet or the text file for the ranked side effects prediction as supplementary material for the test sets.
+
+15. The meaning of red dots and blue dots in Figure 5 should be described in the caption.
+
+16. From Figure 5 scatter plot that there is no clear linear association in the accuracy measure with Avg Thread score and performance metrics. Why the author is using linear correlation to interpret this? I could not quite get this. What will be the justification if Spearman correlation is used in this from the perspective or ranked results?
+
+17. There is a lot of similar work in the area of side-effect drugs prediction. The author has not covered most of the literature.  As the author is focusing on the computational part they should cover the semi-supervised and unsupervised machine learning areas of side effect drug prediction and should critically evaluate with their proposed model.
+
+18. The author pointed the datasets but they should make their code public either in GitHub or other repositories to reproduce their results.
+
+19. This work has been published in the ACL anthology Workshop in Text Mining (https://www.aclweb.org/anthology/papers/W/W18/W18-5602/).  The author should clearly make a difference with the journal version. With this version, I am not seeing any major changes except the Pearson correlation and little justification. Even the tables are the same. If this is an invited journal the author should cite the workshop paper. There are lots of copying and pasting which would raise an issue of plagiarism.
+
+
+
+
+
+
+Reviewer #2: The paper "Neural Architecture-based Treatment Side Effect Prediction from Online User-generated Content and User Credibility Analysis" details the application of a neural network approach for the prediction of drug side-effects. The presented approach has three components: 1) user expertise representation, 2) cluster-sensitive attention, and 3) credibility weighting.  Component 1) represents the expertise of a user by taking into account user participation in forum threads and drug mentions. Due to data sparsity (caused by the high number of drugs inexperienced by the users), principal component analysis is applied for dimensionality reduction and users are further clustered according to their experience with similar drugs. Component 2) makes use of attention vectors to give higher importance to meaningful hidden states. Component 3) represents credibility by concatenating thread feature vectors with user expertise vectors; the reason why this is an adequate
+proxy for credibility is not clearly stated nor referenced.  The authors then compare their approach, sequentially incorporating each component, to a baseline whilst also experimenting with the ablation of drug names from the posts.
+
+The approach presented is mostly sound and detailed, with a few incoherence in the Experimental Settings and Results; however, the remaining of the paper is significantly flawed. It is also not possible to attest for the novelty of this approach as the related work does not provide sufficient information.
+
+The writing in the paper is poor making it difficult to understand; I advise the authors to seek English proof-reading and editing services. As this research deals with drug side-effect prediction, the authors should be cautious when using terminology commonly applied in the field (i.e adverse reactions, page 2 line 28).
+
+The Related Work section is not sufficiently detailed nor it provides references for some claims the authors make (page 3, lines 54-58).  Lines 58-59 are meaningless. Also, the authors base the reasoning to choose a neural network on only two papers. No references are given for the application of an attention mechanism in other works regardless of the application field.
+
+On page 8 "Thread Content Encoding with Credibility Weights", there is no clear reasoning for the credibility component. A reference is also lacking for "truth discovery mechanism". What describes "credibility" here? Is a credible user simply an experienced user? According to the authors reasoning, experienced users (i.e. users with a lot of posts/responses) are the major reason for the credibility of the thread content.
+
+On the Experiments section, the authors state the source of the drug side-effects but not of the drug names; where does this list come from? They also make no reference to posts where a user might combine two or more drugs; how are the side-effects predicted for these cases? Or are these posts removed from the dataset? I again advise caution with the terminologies used, page 10 line 7 "potential reactions of treatments" could mean "adverse reactions" which are distinct from "side-effects". On page 10, the WPE baseline is stated as not containing the user expertise (UE), however, according to page 8 the component credibility weight (CW) requires the UE.
+
+On the Experimental Settings subsection, it is not detailed if the parameters applied in all the stated models were randomly chosen, selected according to related work, or tested and shown to be the most adequate for this work. The reason for the implementation of experiment 2 is not stated here nor put in line with the goal of the paper. How does this contribute to the work? In the following section, the authors state that "the attention mechanism is more effective when the drugs are present"; this could have been said without experiment 2. As the goal in the work is to predict drug side-effects and given that the drug names is not a proposed restriction, I see no reason for this experiment.
+
+On the Results and Discussion section, the less pronounced improvements of incorporating UE can be attributed to its indirect use in the WPE system.
+
+On page 13 and 14, the Pearson values are meaningless since no significance test result is present. The authors state that "the learned user scores correlate with their interaction level", since the user score is calculated by also depending on the user experience and, hence, the participation in the forum, this is an obvious statement.
+
+
+
+
+
+Reviewer #3:
+Authors report experiments using a neural architecture for predicting side effects in user generated content. The model incorporates information from users' experience about drug use and also users' reliability. A recurrent neural network (RNN) bi-LSTM model is applied together with an attention mechanism and methods to represent users' expertise and cluster them in a vector space. Authors compare their methods with state-of-the-art models (e.g. Kim 2014) and perform and ablation analysis, to show how using each information component in their model improve the results.
+
+The article reports the technical details adequately and algorithms are formalized extensively; methods and objectives are explained in a transparent manner. I nonetheless recommend the authors to have their work read by a native speaker to check some grammar or style infelicities (the main ideas, however, can be understood well). The framing of the research topic is developed enough. I agree that considering user's experience and reliability on the prediction pipeline is a good contribution towards more reliable results. In my opinion, the idea behind the method---i.e. the fact that "users who provide trustworthy information frequently will be assigned high reliability scores"---is correct.
+
+Still, I did not agree with the authors' manner to compute the "credibility scores". An "active and enthusiastic contributor" (in authors' words) does not necessarily imply that he/she may express a correct, reasonable or sensible content. An example may be any fanatic user from the anti-vaccines movement, who might be very participative and present in the social media to oppose childhood vaccination, but he/she might defend views that are not supported by the medical scientific community. Authors could maybe adress this issue in the Discussion (indeed, they seem to realize of this limitation in p. 14, when they state that "user's credibility can be damaged if their posts do not directly help with predicting the correct side effects"). Authors could develop on that by distinguishing the "credibility scores" (which would be placed in the level of 'user trustworthiness' according to each web site) and the "medical reference" or "ground truth" (which would be placed in another
+level of 'scientific evidence'). A good model should try to approach both "user credibility" and "scientific evidence", but this work would need to include much more domain knowledge and is far from the work here reported. In short, although the unsupervised methods here reported might provide some cues and help analyzing a large volume of data, the need for precision requires a kind of supervised method or even the collaboration with medical or pharmacovigilance experts.
+
+I also missed some details on how authors map the terms extracted from the Mayo Clinic and the terms or mentions of side effects in the web posts. Many terms in user posts will certainly have mispellings, appear in abbreviations, etc; these are recurrent challenges when working with user generated content. In the Discussion, authors do not adress these aspects sufficiently (which would explain the lower results obtained when compared with other types of data).
+
+Overall, I think the article provides interesting and original methods that deserve to be published. I nonetheless recommend revisions to improve the Discussion of results and the implications of the wrong predition of "user credibility". Some technical details are still missing but I think can be easily included in the final version. Below I provide some specific comments to improve the article.
+
+-1. Introduction:
+-Table 1: Is the list extracted from online threads? Please, give details in the caption.
+-In p. 2, paragraph 4, 2nd sentence: "...patients with long-term use of certain drugs can be valuable authorities as follows" -> I would hedge the statement; maybe say: "patients (...) can be a complementary source of information"
+
+-Sect. 6 Results do not show the average values (and standard deviation) of several rounds of training + test. This would limit the generalizability of authors' methods, and should be discussed as well, as a limitation of their study.
+
+-Others (grammar, style, typography...): There are some infelicities regarding the English language:
+
+Abstract: "Ablation study" -> "An/The ablation study..."
+    "Other than the solving the task..." -> "In addition to solving... (?)"
+P. 2: Use italics for the examples, do not use both italics and quotation marks (e.g. dizziness, giddiness, etc).
+P. 2: "More concern is that..." -> Please rewrite the sentence.
+P. 2: "...is of variable quality and approached with caution" -> "is of variable quality and *should be* (?) approached with caution"
+P. 3, "learns *the* content of each post and *each user's experience level* within a thread". In general: check the use of the article throughout all the paper; another example occurs in p. 4: "each post has different contribution to thread content" -> "each post has a different contribution to the thread content"; p. 6, "Given limited data" -> "Given *the* limited data"; p. 7, "...represent a post p as *a/the* vector v that..."; p. 15, Conclusion: "for downstream application" -> "for downstream applications" or "for a downstream application", etc.
+P. 3, "individual post's and overall thread's semantic content" -> "the semantic content of individual posts and the overall thread"
+P. 3, Sect. 2: "its counter parts" -> "its counterpart"
+P. 4, "Most of works" -> "Most works" or "Most of the works"
+P. 4, Sect. 2.2: "sampathkumar et al." -> "Sampathkumar et al." (uppercase)
+P. 4, Sect. 3: "Basic Terminologies" -> "Basic terminology"
+P. 4, Sect. 4: "... will be discussed in the followings" -> "will be discussed in the following section"; "an ablation study as baseline systems" -> please, rewrite.
+P. 5, Sect. 3: "She participates in..." -> "He/She participates in..."
+P. 6, "...our PCA plots do not show added explanation percentage..." -> please, rewrite, something seems missing
+P. 8, "We employ long-short term memory (LSTM)" -> Rewrite to be more accurate technically: e.g. "We employ a Recurrent Neural Network architecture, namely a Long-Short Term Memory (LSTM) model..."
+P. 12, Table 6 is confusing in certain columns, where contents do not read well. I suggest authors to rearrange contents or improve the arrangements.
+P. 13, Figure 4, "thanks" -> I guess authors mean the type of messages where users reply to other posts in a thread and thank for a given reply. This could be explained in the running text with a short sentence.

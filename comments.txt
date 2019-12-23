@@ -1,0 +1,132 @@
+Reviewer 1:
+
+1. In page 2 author mention "trustworthy user-generated content", what does this mean? what is trustworthy? Does it have labels or scales on how to ensure trustworthiness?
+
+> Hoang: 
+- Credibility modeling is an important aspect in large scale knowledge harvesting system.
+- We model trustworthiness of information in the discussion representation learning that follow general principle of truth discovery in previous work.
+- The dataset provides no explicit ground truths for credibility, hence we use a credibility proxy of number of ``thanks'' received by other users
+ 
+2. In page 2  author mention "quality of user-generated content", what is the meaning of quality in the scenario of user-generated content. In the online world of social media, it is believed to be noisy, in such setting who can check this quality, particularly in a health-based discussion forum?
+
+> Hoang: Unlike previous work, we are not very concerned about measuring credibility of individual statement. We are more concerned about user credibility in order to encode our thread representation more effectively.
+
+3. "We build neural architecture"- Why we need this? why not other simpler models? What is the motivation of this? The justification is not convincing. The author jumps to the solution approach without clearly describing the problem.
+
+> Hoang: The main supports for neural networks are
+- Modeling lexical variations in user-generated content
+- Modeling long-term dependencies in long structured document, especially in community question answering with hierarchical networks.
+- Modular design that can easily integrate new components or update existing ones such as text encoders.
+
+4. In the task definition, what does the binary side effect label vector means? I could not get this?
+
+> Hoang: truth vector of size = number of side effect where index i = 1 if side effect i is present, 0 otherwise.
+
+5. In a User Clustering section author mention "Set of meaning cluster C", how can one ensure the meaningful cluster? how does the author know the clusters are meaningful? The author should provide statistical evidence of meaningful clusters.
+
+> Hoang: Provided the statistical significance in term of silhouette score, also provided top common side effects from each cluster for observation
+
+6. The author proposed a model which has a very marginal improvement over the state of the art methods. Are these improvements really significant?
+
+> Hoang: conducted 1-tail t-test at p < 0.05.
+
+7. In a situation like side effects prediction finding correctly predicting positive label is important, which means the metric like AUC-PR would have been very useful. From precision, perspective WPE has outperformed all the other algorithms. This means (WPE+ Credibility weights) demonstrated better performance for correctly classifying side effect labels, then why we need your proposed model which takes 3 components (CW+UE+CA) and still perform less accurate in terms of precision.
+
+> Hoang: in the task of drug side effect discovery, we would like to balance between confirming existing side effects, measured in term of precision, and covering new side effects, measured in term of recall. Therefore, we quantify our improvement mainly in term of F1 score, which is the harmonic mean of precision and recall. In this aspect, our proposed model achieves incremental improvement via ablation study.
+
+8. The author should report the performance of algorithms by taking CW, UE, and CA individually. This is because it is not clear the contribution of these components for the performance in accuracy.
+
+> Hoang: reported in the appendix
+
+9. Can (CW + UE + CA) all three components be incorporated in WPE ? If so then the performance of WPE should also be demonstrated?
+
+> Hoang: I think the author misunderstood the results. We report the result of all three components under NEAT system.
+
+10. Since this is a multilabel prediction problem the author should compare (i) random baseline (ii) the baseline supervised model such as simple SVM or any model of author's choice taking word features as a "bag-words" and report the performance as a simple baseline.
+
+> Hoang: I find the random baseline trivial. Instead of implementing random baseline I randomized the user identity of each post in order to demonstrate that our system has learned to incorporated user-specific information into its decision.
+
+11. The author has not done the significance test for the result reported in Table 4. Are these 10 fold cross validation scores from the authors model significantly different than the baseline methods? Simple t-test reporting p-values should help.
+
+> Hoang: same concerned with comment 6
+
+12. In a "Microscopic Analysis" how does the author gather these sample in Table 6?  Are these sample randomly picked from a test set? What is the significance of the per sample prediction based on credibility score?
+
+> Hoang: I change the microscopic analysis into 2 extra experiment settings:
+- User credibility analysis: I measure Spearman's coefficient and nDCG@2 in ranking the trustworthy users based on their received number of 'thanks'.
+- Attention-based Side Effect Extraction: I report statistical significance of benchmark against a medical term tagging baseline and a state-of-the-art neural extractor in retrieving mentioned ADR. The example in table 10 was chosen at the first example in the test subset where NEAT Attention performs better than both baselines.
+
+13. If the side-effects labels are randomized what is the probability of predicting the same prediction close to Ground Truth using author's proposed model please report the statistical significance of the per sample prediction in Table 6.
+
+> Hoang: Statistical significance is reported by experiments in table 9, random baseline is reported in table 7 and 8
+
+14. The author should provide the xlsx sheet or the text file for the ranked side effects prediction as supplementary material for the test sets.
+
+> Hoang: included 3 models output extracted side effects in the revised submission
+
+15. The meaning of red dots and blue dots in Figure 5 should be described in the caption.
+
+> Hoang: no longer valid as the figures are dismissed
+
+16. From Figure 5 scatter plot that there is no clear linear association in the accuracy measure with Avg Thread score and performance metrics. Why the author is using linear correlation to interpret this? I could not quite get this. What will be the justification if Spearman correlation is used in this from the perspective or ranked results?
+
+> Hoang: I reported the measurement of Spearman and nDCG@2 in table 6
+
+17. There is a lot of similar work in the area of side-effect drugs prediction. The author has not covered most of the literature.  As the author is focusing on the computational part they should cover the semi-supervised and unsupervised machine learning areas of side effect drug prediction and should critically evaluate with their proposed model.
+
+> Hoang: I covered more literatures, included the benchmark with state-of-the-art ADR extraction.
+
+18. The author pointed the datasets but they should make their code public either in GitHub or other repositories to reproduce their results.
+
+> Hoang: I release the implementation
+
+19. This work has been published in the ACL anthology Workshop in Text Mining (https://www.aclweb.org/anthology/papers/W/W18/W18-5602/).  The author should clearly make a difference with the journal version. With this version, I am not seeing any major changes except the Pearson correlation and little justification. Even the tables are the same. If this is an invited journal the author should cite the workshop paper. There are lots of copying and pasting which would raise an issue of plagiarism.
+
+> Hoang: I cited the workshop paper I highlighted the different in this journal submission towards the end of Introduction session.
+
+----------
+Reviewer 2:
+
+1. It is also not possible to attest for the novelty of this approach as the related work does not provide sufficient information.
+
+> Hoang: I updated the literature review
+
+2. The authors base the reasoning to choose a neural network on only two papers. No references are given for the application of an attention mechanism in other works regardless of the application field.
+
+> Hoang: I include justification for neural method under section 2.3 and the cover letter. I justified the implementation of attention mechanism in section 4: User cluster attention and the cover letter
+
+3. On page 8 "Thread Content Encoding with Credibility Weights", there is no clear reasoning for the credibility component. A reference is also lacking for "truth discovery mechanism". What describes "credibility" here? Is a credible user simply an experienced user? According to the authors reasoning, experienced users (i.e. users with a lot of posts/responses) are the major reason for the credibility of the thread content.
+
+> Hoang: similar concern with Reviewer 1's Comment 1, as addressed.
+
+4. On the Experiments section, the authors state the source of the drug side-effects but not of the drug names; where does this list come from? They also make no reference to posts where a user might combine two or more drugs; how are the side-effects predicted for these cases? Or are these posts removed from the dataset?
+
+> Hoang: the list of side effects come from a drug-side effects mapping from Mayo clinic portal. Each discussion is labeled with a list of mentioned drugs which are used to derived the side effects.
+
+5. On page 10, the WPE baseline is stated as not containing the user expertise (UE), however, according to page 8 the component credibility weight (CW) requires the UE.
+
+> Hoang: Credibility Weight does not consider user expertise. It solely concern with the user scores assigned and optimized by our system.
+
+6. On the Experimental Settings subsection, it is not detailed if the parameters applied in all the stated models were randomly chosen, selected according to related work, or tested and shown to be the most adequate for this work. The reason for the implementation of experiment 2 is not stated here nor put in line with the goal of the paper. How does this contribute to the work? In the following section, the authors state that "the attention mechanism is more effective when the drugs are present"; this could have been said without experiment 2. As the goal in the work is to predict drug side-effects and given that the drug names is not a proposed restriction, I see no reason for this experiment.
+
+> Hoang: I agree with this and dismissed experiment 2. I also stated the parameter choice in experiment settings.
+
+7. On the Results and Discussion section, the less pronounced improvements of incorporating UE can be attributed to its indirect use in the WPE system.
+
+> Hoang: The updated results are no longer less pronounced.
+
+8. On page 13 and 14, the Pearson values are meaningless since no significance test result is present. The authors state that "the learned user scores correlate with their interaction level", since the user score is calculated by also depending on the user experience and, hence, the participation in the forum, this is an obvious statement.
+
+> Hoang: No longer valid with updated credibility definition and analysis
+
+----------
+Reviewer 3
+
+1. Still, I did not agree with the authors' manner to compute the "credibility scores". An "active and enthusiastic contributor" (in authors' words) does not necessarily imply that he/she may express a correct, reasonable or sensible content. An example may be any fanatic user from the anti-vaccines movement, who might be very participative and present in the social media to oppose childhood vaccination, but he/she might defend views that are not supported by the medical scientific community.
+
+> Hoang: No longer valid with updated credibility definition and analysis
+
+2. I also missed some details on how authors map the terms extracted from the Mayo Clinic and the terms or mentions of side effects in the web posts. Many terms in user posts will certainly have mispellings, appear in abbreviations, etc; these are recurrent challenges when working with user generated content.
+
+> Hoang: Released the source code. Basically I do lemmatization and extract the exact match. If it's an n-gram (n>1) side effect I impose a window of size 5 for co-occurrence of single token of the n-grams.
+
