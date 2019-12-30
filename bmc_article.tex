@@ -224,7 +224,7 @@ We propose a NEural Architecture-based Treatment side effect prediction (NEAT), 
 NEAT learns to assign each user a score that is descriptive of her credibility and highlights the critical textual segments of her post.
 
 \parttitle{Results}
-Evaluations via ablation study show that credibility learning and experience-based attention improves performance in drug side effect discovery from online health discussion. Additionally, output credibility scores statistically correlate with trustworthiness signals, such as number of ``thanks'' received by other forum members. Experience-based attention highlights critical phrases such as symptoms or drugs and enhances ADR extraction models based on sequence labelling.
+Experiments show that NEAT improves drug side effect discovery from online health discussion by 3.04\% from non-user-aware baselines and by 9.94\% from non-neural baselines in term of $F_1$. Additionally, output credibility scores statistically correlate with trustworthiness signals, such as number of ``thanks'' received by other forum members, and improve credibility heuristics such as number of posts by 0.113 in term of Spearman's rank correlation coefficient. Experience-based self-supervised attention highlights critical phrases such as symptoms or drugs and enhances fully supervised ADR extraction models based on sequence labelling by 5.502\% in term of Precision.
 
 \parttitle{Conclusions}
 NEAT considers both users' reported content and global experiences in online health forums, making a self-supervised approach to side effect prediction for mentioned drugs feasible. The derived user credibility and attention mechanism are transferable and improve downstream ADR extraction models.
@@ -528,7 +528,7 @@ we hypothesize that considering the credibility and experience of user $u \in \l
 %and then describe "Figure 1 shows ..." 
 
 %Hoang-JBMS: Noted with thanks. I have provide a high-level description of our neural network architecture.
-We propose a self-supervised learning objective. Instead of relying on the identical and independently distributed assumption of fuly supervised learning, we construct the dataset from threads that can discuss a set of common drugs. We look up the side effects of these mentioned drugs via a drug -- side effect medical database. To avoid the scenario where our model simply learns to identify the drug mentions and memorize the look-up process, we remove the drug mentions from user posts. Our self-supervised task explores discussion-based side effect discovery and alleviates the need for finer-grain annotation compared with existing approach of statement-based side effect discovery.
+We propose a self-supervised learning objective. Instead of relying on the identical and independently distributed assumption of fuly supervised learning, we construct the dataset from threads that can discuss a set of common drugs. We look up the side effects of these mentioned drugs via a drug -- side effect medical database. Our self-supervised task explores discussion-based side effect discovery and alleviates the need for finer-grain annotation compared with existing approach of statement-based side effect discovery.
 We also propose our neural architecture, NEAT, that jointly models user credibility, expertise and text content with attention while optimizing for the self-supervised objective.
 %Kaz2: "the whole set of ..." is better than "a set of ..."?
 %from a set of possible side effects. 
@@ -742,7 +742,7 @@ For CNN encoder we adopted the work by Kim \textit{et al.} (2014)~\cite{kim2014c
 
 We used Natural Language Toolkit~\footnote{\scriptsize{\url{{https://www.nltk.org/index.html}}}} for tokenizationa and and stop-word elimination before representation modeling. 
 We perform cross-validation (8, 1, and 1 folds for training, validation, and testing, respectively). We perform PCA and $K$-means clustering on training set, using scikitlearn's built-in modules~\cite{scikit-learn}, 
-100 principal components ($g=100$). All models are trained using Pytorch\footnote{\scriptsize{\url{https://pytorch.org/}}} library. We release our codes at~\footnote{\scriptsize{\url{https://github.com/nguyenvanhoang7398/nguyen2018treatment}}}.
+100 principal components ($g=100$). All models are trained using Pytorch\footnote{\scriptsize{\url{https://pytorch.org/}}} library. We release our codes at~\footnote{\scriptsize{\url{https://github.com/nguyenvanhoang7398/NEAT}}}.
 
 \subsection{Ablation Study}
 
@@ -829,7 +829,7 @@ Overall, results at both thread and forum level show that user scores assigned b
     Random  & 0.7968 & -0.0271 & 0.0 \\ \hline
     Post frequency & 0.8812 & 0.4223 & 0.1924 \\ \hline
     Question frequency & 0.8341 & 0.1773 & 0.0279 \\ \hline
-    Neat Credibility & \textbf{0.8856} & \textbf{0.4403} & \textbf{0.3055} \\ \hline\hline
+    NEAT's Credibility & \textbf{0.8856} & \textbf{0.4403} & \textbf{0.3055} \\ \hline\hline
   \end{tabular}
   \caption{Analysis of NEAT's output user scores in approximating credibility proxy.}\label{table:credibility}
 \end{table}
@@ -838,7 +838,7 @@ Overall, results at both thread and forum level show that user scores assigned b
 We test the performance of NEAT in the task of Drug Side Effect Discovery. Specifically, the model has to predict the side effects of one of five unseen drugs based on their discussions as a whole. Such task is necessary to verify that our self-supervised objective of predicting for side effects of discussed drugs can also generalize well to
 drugs that have not been discussed in training data. We also highlight the performance of an end-to-end neural architecture against Random Forest (RF) -- a non-neural baseline trained on bag-of-word text representations of thread content. Furthermore, we examine a baseline, uNEAT, where the user identities are randomized in order to verify that NEAT effectively considers both user credibility and expertise. The results of drug side effect discovery on Ibuprofen, Levothyroxine, Metoformin (Table~\ref{table:se_discovery1}), and Omeprazole, Alprazolam (Table~\ref{table:se_discovery2}) are reported. 
 
-Overall, both neural methods, namely uNEAT and NEAT, outperform non-neural approach based on Bag-of-word vectors on all metrics and across all drugs. This confirms the modeling capability of our neural network and justifies its application to our task. We also observe a decrease in performance while optimizing the without being aware of users. Such shortcoming is prevalent in all side effect discovery settings, ranging from 0.7\% F1 score decrease in Metformin to 4.9\% decrease in Ibuprofen. This again confirms our hypothesis that considering the credibility and experience of users improves drug side effect discovery performance in online health communities.
+Overall, both neural methods, namely uNEAT and NEAT, outperform non-neural approach based on Bag-of-word vectors on all metrics and across all drugs. Specifically, NEAT improves RF by 9.94\% in $F_1$ on average across five different drugs. This confirms the modeling capability of our neural network and justifies its application to our task. We also observe a decrease in performance while optimizing the without being aware of users. Such shortcoming is prevalent in all side effect discovery settings, ranging from 0.7\% F1 score decrease in Metformin to 4.9\% decrease in Ibuprofen. Overall, being aware of user experience and expertise improves drug side effect discovery by 3.04\% in $F_1$ on average across five different drugs. This again confirms our hypothesis that considering the credibility and experience of users improves drug side effect discovery performance in online health communities.
 
 \begin{table}[t!]
   \captionsetup{justification=centering}
@@ -875,12 +875,12 @@ Overall, both neural methods, namely uNEAT and NEAT, outperform non-neural appro
   \caption{Performance of NEAT against Random Forest (RF) and user permutation (uNEAT) in side effect discovery of Omeprazole and Alprazolam.}\label{table:se_discovery2}
 \end{table}
 
-\subsection{Side Effect Extraction with Cluster Attention}
+\subsection{Side Effect Extraction with Cluster Attention}\label{subsec:se_extraction}
 As discussed in section~\ref{sec:proposed_method}, our employed attention mechanism not only offers a better textual encoding capacity but also helpfully locates the informative segments of user-generated content. This concept is well-aligned with ADR mention extraction, which is mainly modeled as a sequence labeling problem.
 
-We conduct experiments to examine the indicativeness of NEAT's attention in locating the text segments containing the correct side effects. We benchmark our results against a lexicon-based tagging using UMLS thesaurus for medical terms~\footnote{\scriptsize{\url{https://www.nlm.nih.gov/research/umls/index.html}}} and a state-of-the-art neural side effect extractor~\cite{ding2018attentive} which was supervisedly trained to identify side effect mentions in social media contents. In this task, correctly predicting the positive side effects is of the utmost importance, hence we benchmark the text segments extracted from NEAT's Attention against two mentioned baselines on precision. The experiment results on Ibuprofen, Levothyroxine, Metoformin, Omeprazole and Alprazolam are reported in table~\ref{table:se_extraction}.
+We conduct experiments to examine the indicativeness of NEAT's Attention in locating the text segments containing the correct side effects. We benchmark our results against a lexicon-based tagging using UMLS thesaurus for medical terms~\footnote{\scriptsize{\url{https://www.nlm.nih.gov/research/umls/index.html}}} and a state-of-the-art neural side effect extractor~\cite{ding2018attentive} which was supervisedly trained to identify side effect mentions in social media contents. In this task, correctly predicting the positive side effects is of the utmost importance, hence we benchmark the text segments extracted from NEAT's Attention against two mentioned baselines on precision. The experiment results on Ibuprofen, Levothyroxine, Metoformin, Omeprazole and Alprazolam are reported in table~\ref{table:se_extraction}.
 
-We notice improvement of NEAT's attention from both baselines across most drugs with the exception of Omeprazole. At macro level, positive precision scores confirm NEAT's emphasis on critical text segments, \textit{i.e.} those containing correct drug side effects. The significant improvement in most cases also suggests the selectiveness of NEAT's attention. Unlike the two proposed baselines which extract any side effect mentions, NEAT's attention selectively emphasize on the correct ADR. We examine this hypothesis at micro level in Table~\ref{table:extraction_ex}. UMLS tagging identifies any phrase having medical nuance, \textit{i.e.} \textit{pain} and \textit{back}, and potentially forms side effects that are not actually mentioned, \textit{i.e.} \textit{back pain}, whereas both neural methods, Neural Extractor and NEAT, that model textual semantics are able to dismiss such trivial mentions. \textit{Discomfort}, although correct, is questionably an intentionally reported side effects and is also dismissed by both Neural Extractor and NEAT. We attempt to explain NEAT's decision to dismiss \textit{restlessness} as the attention was derived from each cluster's experienced side effects, in which there is the \textit{weak} side effects which are semantically contradicting to \textit{restlessness}. Although having not fully covered all side effects, all mentions extracted by NEAT are accurate, giving it the highest precision amongst the three considered models. Despite being derived from a self-supervised objective, NEAT's attention offers helpful indications for attention-based models and a strong baseline for ADR extraction.
+We notice improvement of NEAT's Attention from both baselines across most drugs with the exception of Omeprazole. At macro level, positive precision scores confirm NEAT's emphasis on critical text segments, \textit{i.e.} those containing correct drug side effects. The significant improvement in most cases also suggests the selectiveness of NEAT's Attention. Unlike the two proposed baselines which extract any side effect mentions, NEAT's Attention selectively emphasize on the correct ADR. We examine this hypothesis at micro level in Table~\ref{table:extraction_ex}. UMLS tagging identifies any phrase having medical nuance, \textit{i.e.} \textit{pain} and \textit{back}, and potentially forms side effects that are not actually mentioned, \textit{i.e.} \textit{back pain}, whereas both neural methods, Neural Extractor and NEAT, that model textual semantics are able to dismiss such trivial mentions. \textit{Discomfort}, although correct, is questionably an intentionally reported side effects and is also dismissed by both Neural Extractor and NEAT. We attempt to explain NEAT's decision to dismiss \textit{restlessness} as the attention was derived from each cluster's experienced side effects, in which there is the \textit{weak} side effects which are semantically contradicting to \textit{restlessness}. Although having not fully covered all side effects, all mentions extracted by NEAT are accurate, giving it the highest precision amongst the three considered models. Specifically, NEAT's Attention improves neural ADR extraction model~\cite{ding2018attentive} by 5.502\% and UMLS tagging by 3.974\% on average in term of Precision across five different drugs. Despite being derived from a self-supervised objective, NEAT's Attention offers helpful indications for attention-based models and a strong baseline for ADR extraction.
 
 \begin{table}[t!]
   \captionsetup{justification=centering}
@@ -892,7 +892,7 @@ We notice improvement of NEAT's attention from both baselines across most drugs 
     \textbf{Method} & Ibuprofen & Levothyroxine & Metoformin & Omeprazole & Alprazolam \\ \hline \hline
     UMLS Tagging & 0.6801 & 0.6145 & 0.8378 & \textbf{0.5218} & 0.614 \\ \hline
     Neural Extractor~\cite{ding2018attentive} & 0.6741 & 0.6259 & 0.8092 & 0.4665 & 0.6161 \\ \hline
-    NEAT Attention & \textbf{0.7073} & \textbf{0.7119} & \textbf{0.8557} & 0.504 & \textbf{0.688} \\ \hline
+    NEAT's Attention & \textbf{0.7073} & \textbf{0.7119} & \textbf{0.8557} & 0.504 & \textbf{0.688} \\ \hline
   \end{tabular}
   \caption{Precision of NEAT's Attention mechanism against baselines in mentioned side effect extraction.}\label{table:se_extraction}
 \end{table}
@@ -907,7 +907,7 @@ We notice improvement of NEAT's attention from both baselines across most drugs 
     User id & Cluster's side effects & Post content \\ \hline \hline
     8420 & stomach pain, headache, itch, weak, nausea & I won\'t commit suicide but the \textcolor{blue}{discomfort} $<$U$>$ is enough to make me want to die right now [...] I feel like I have sever Akathisia (inner \textcolor{red}{restlessness}$<$U,X$>$ that makes you feel like your body is electrified [...] I also have \textcolor{blue}{nausea}$<$U,X,N$>$, but I can eat a little, \textcolor{blue}{sweating}$<$U,X,N$>$/cold, and extreme \textcolor{red}{fatigue}$<$U,X$>$, although I already have chronic fatigue [...] I also get \textcolor{blue}{anxious}$<$U,X,N$>$ if I take more oxycodone for breakout \textcolor{red}{pain}$<$U$>$ and then go right \textcolor{red}{back}$<$U$>$ down \\ \hline
   \end{tabular}
-  \caption{A test example highlighting the extracted correct (blue) and wrong (red) side effects wrapped in $<>$ by UMLS Tagging (U), Neural Extractor (X) and NEAT (N)}\label{table:extraction_ex}
+  \caption{A test example highlighting the extracted correct (blue) and wrong (red) side effects wrapped in $<>$ by UMLS Tagging (U), Neural Extractor (X) and NEAT's Attention (N)}\label{table:extraction_ex}
 \end{table}
 
 {\bf Limitations.} We foresee a limitation arisen from our design of user's credibility defined by Equation~(\ref{sec:CW}) as well as our choice of credibility proxy using the number of ``thanks''. A user's credibility can be damaged if their posts do not directly help with predicting the correct side effects. 
@@ -1047,7 +1047,11 @@ Not applicable.
   All authors declare that they have no competing interests.
   
 \section*{Availability of data and materials}
-The dataset used in this paper was first published in~\cite{mukherjee2014people} and is publicly available at https://www.mpi-inf.mpg.de/departments/databases-and-information-systems/research/impact/peopleondrugs/
+The dataset analysed during the current study was first published in~\cite{mukherjee2014people} and is publicly available at https://www.mpi-inf.mpg.de/departments/databases-and-information-systems/research/impact/peopleondrugs/
+
+The source codes of the implementation of this study is publicly available at https://github.com/nguyenvanhoang7398/NEAT
+
+The source codes used to generate the results of Side Effect Extraction in Section~\ref{subsec:se_extraction} is available at https://github.com/nguyenvanhoang7398/NEAT/blob/master/adr\_extraction.py
 
 % \section*{Author's contributions}
 %     Text for this section \ldots
