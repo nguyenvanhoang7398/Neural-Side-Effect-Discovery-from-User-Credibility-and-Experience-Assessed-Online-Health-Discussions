@@ -114,6 +114,8 @@
 
 % Min: too wordy.  Do you really need Neural? If no one else has done this task before use a shorter title
 \title{Neural Side Effect Discovery from User Credibility and Experience-Assessed Online Health Discussions}
+% Kishaloy: The title could sound better.
+% Kishaloy: Should be \title{A Neural Framework for Side Effect Discovery from Online Health Discussions with Varying User Credibility}
 % \title{Neural Architecture-based Treatment Side Effect Prediction from Online User-generated Content and User Credibility Analysis}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -219,15 +221,32 @@
 % \parttitle{Second part title} %if any
 % Text for this section.
 \parttitle{Background}
-Health~2.0 allows patients and caregivers to conveniently seek medical information and advice via e-portals and online discussion forums, especially regarding potential drug side effects. While online health communities are helpful platforms for obtaining non-professional opinions, they pose risks in communicating unreliable and insufficient information in terms of quality and quantity. Existing methods in extracting user-reported adverse drug reactions (ADR) in online health forums are not only insufficiently accurate as they disregard author credibility and global drug experience, but are also expensive as they rely on supervised ground truth annotation at the statement level. 
-We propose a NEural ArchiTecture for Drug side effect prediction (NEAT), which is optimized on a self-supervised prediction task of mentioned drugs' side effects at the discussion level that addresses these shortcomings. 
+Health~2.0 allows patients and caregivers to conveniently seek medical information and advice via e-portals and online discussion forums, especially regarding potential drug side effects. Although online health communities are helpful platforms for obtaining non-professional opinions, they pose risks in communicating unreliable and insufficient information in terms of quality and quantity. Existing methods in extracting user-reported adverse drug reactions (ADR) in online health forums are not only insufficiently accurate as they disregard author credibility and global drug experience, but are also expensive as they rely on supervised ground truth annotation.% at the statement level. 
+We propose a NEural ArchiTecture for Drug side effect prediction (NEAT), which 
+%is optimized on a self-supervised prediction task of mentioned drugs' side effects at the discussion level that addresses these shortcomings. 
+addresses the task of predicting possible drug side effects given a user post.
+%Kishaloy:
+We train our neural model in a supervised fashion using ground truth drug side effects from {\tt mayoclinic.org}.
 NEAT learns to assign each user a score that is descriptive of her credibility and highlights the critical textual segments of her post.
-
+% Kishaloy: User, author, patient pretty much mean the same thing in our context. Could you stick to one please?
+% Kishaloy: The current abbreviation has nothing got to do with side effect discovery part. Better to change it to something like NDSD (Neural Drug Side Effect Discovery). Make sure there isn't already some model named like that.
+% Kishaloy: Few things are a bit verbose and confusing. What is statement level? What is discussion level? Does not read well if we keep using abstract concepts without introducing them properly.
+% Kishaloy: Why are we calling it self-supervised? I think the approach is a classic supervised learning, correct me if I am wrong.
 \parttitle{Results}
-Experiments show that NEAT improves drug side effect discovery from online health discussion by 3.04\% from non-user-aware baselines and by 9.94\% from non-neural baselines in term of $F_1$. Additionally, output credibility scores statistically correlate with trustworthiness signals, such as number of ``thanks'' received by other forum members, and improve credibility heuristics such as number of posts by 0.113 in term of Spearman's rank correlation coefficient. Experience-based self-supervised attention highlights critical phrases such as mentioned side effects and enhances fully supervised ADR extraction models based on sequence labelling by 5.502\% in term of Precision.
+Experiments show that NEAT improves drug side effect discovery from online health discussion by $3.04\%$ from user-credibility agnostic baselines, and by $9.94\%$ from non-neural baselines in term of $F_1$. Additionally, %output credibility scores statistically 
+the latent credibility scores learned by the model correlate well with trustworthiness signals, such as number of ``thanks'' received by other forum members, and improve credibility heuristics such as number of posts by $0.113$ in term of Spearman's rank correlation coefficient. Experience-based self-supervised attention highlights critical phrases such as mentioned side effects, and 
+enhances fully supervised ADR extraction models based on sequence labelling by $5.502\%$ in term of Precision.
+% Kishaloy: Again, check the self-supervised part.
 
 \parttitle{Conclusions}
-NEAT considers both users' reported content and global experiences in online health forums, making a self-supervised approach to side effect prediction for mentioned drugs feasible. The derived user credibility and attention mechanism are transferable and improve downstream ADR extraction models.
+%NEAT considers both users' reported content and global experiences in online
+%Kishaloy: 
+NEAT considers both user and globally reported experiences in online health forums, making a self-supervised approach to side effect prediction for mentioned drugs feasible. The derived user credibility and attention mechanism are transferable and improve downstream ADR extraction models.
+% Kishaloy: Could be more concrete about the conclusions. Say something like
+% Recent advancements in neural networks make it possible to extract drug side 
+% effects automatically. This could foster research in several domains such as 
+% clinical studies.
+
 \begin{keyword}
 \kwd{online health communities}
 \kwd{drug side effect discovery}
@@ -287,13 +306,13 @@ NEAT considers both users' reported content and global experiences in online hea
 
 \section{Background}\label{sec:background}
 
-Seeking medical opinions from online health communities has become commonplace: 71\% of adults aged 18--29 (equivalent to 59\% of all
+Seeking medical opinions from online health communities has become popular: $71\%$ of adults aged 18--29 (equivalent to $59\%$ of all
 U.S. adults) reported consulting online health
 websites for opinions~\cite{fox2013health}.  These opinions come from an estimated
 twenty to one hundred thousand health-related
 websites~\cite{diaz2002patients}, inclusive of online health
 communities that network patients with each other to provide
-information and social support~\cite{johnston2013online}.  Platforms
+information and social support~\cite{johnston2013online}. Platforms
 such as
 HealthBoards\footnote{\scriptsize{\url{https://www.healthboards.com/}}}
 and MedHelp\footnote{{\scriptsize{\url{https://medhelp.ord/}}}}
@@ -305,7 +324,7 @@ valuable sources for researchers~\cite{leyens2017use,martin2014big}.
 % Min: global replace as needed
 Although patients use these platforms to access valuable information about drug reactions, there are challenges to their effective, large-scale use. There is lexical variation where users describe the same side effect differently.  For example, \textit{dizziness} can be expressed as
 \textit{giddiness} or \textit{my head is spinning}, posing difficulty to most feature-based or keyword matching approaches. Separately there are valid concerns regarding credibility of user-generated contents to be harvested at large which research
-has shown to be of variable quality and should be approached with caution~\cite{impicciatore1997reliability,peterson2003consumers,hajli2015credibility}. One proxy indicator for information quality is the author's trustworthiness~\cite{li2016survey}. In the context of social media or online forums, user trustworthiness is 
+has shown to be of variable quality and should be approached with caution~\cite{impicciatore1997reliability,peterson2003consumers,hajli2015credibility,poddar2019}. One proxy indicator for information quality is the author's trustworthiness~\cite{li2016survey}. In the context of social media or online forums, user trustworthiness is 
 often approximated via ratings from other users, \textit{i.e.,} number of thanks or upvotes~\cite{rains2009health}, or via her consistency of reporting credible information~\cite{hoang2018authenticity,mukherjee2014people}. In addition to credibility, forum members also offer expertise thanks to their own experience -- with prescriptions in particular -- and facilitate responses to drug queries~\cite{vydiswaran2019identifying}. For instance, while reporting expected side effects for a specific treatment, patients with long-term use of certain drugs can be a complementary source of information:  %{\it E.g.}:
 
 {\footnotesize
@@ -313,22 +332,27 @@ often approximated via ratings from other users, \textit{i.e.,} number of thanks
 }
 
 The above is an answer to a thread asking for expected side effects for
-depression treatment with Zoloft. User 3690's history of active
-discussion on other anti-depressants such as Lexapro and Xanax lends credibility to her being an authority on depression treatments. We noticed that Zoloft (mentioned in the thread) shares many common side effects with the other two anti-depressants: ``\textit{changed behavior},'' ``\textit{dry mouth},'' and ``\textit{sleepiness or unusual
+depression treatment with {\tt Zoloft}. User 3690's history of active
+discussion on other anti-depressants such as {\tt Lexapro} and {\tt Xanax} lends credibility to her being an authority on depression treatments. We noticed that {\tt Zoloft} (mentioned in the thread) shares many common side effects with the other two anti-depressants: ``\textit{changed behavior},'' ``\textit{dry mouth},'' and ``\textit{sleepiness or unusual
 drowsiness}.'' as illustrated in 
 % Min: usually numbered artifacts are capitalized ``Table~1'', ``Section~2''
-Table~\ref{table:anti_depressant_side_effects}. Many of such examples suggest that drugs which are often prescribed together for the same treatment, such as anti-depressants, are likely to be discussed within a same thread and share common side effects. In addition, users who have experienced certain reactions are opinionated and authoritative on those discussions involved drugs of similar side effects. These signals arise from the rich context of online health information, hence, we expect systems to explore beyond individual statements by considering the thread content as a whole as well as the global experience of each involved users, in order to discover drug side effects or extracting 
+Table~\ref{table:anti_depressant_side_effects}. Many such examples suggest that drugs which are often prescribed together for the same treatment, such as anti-depressants, are likely to be discussed within a same thread and share common side effects. 
+% Kishaloy: The following sentence is not correct. Not sure what is means. Please check. Also, try to be specific about what "reaction" you mean.
+In addition, users who have experienced certain reactions are opinionated and authoritative on those discussions involved drugs of similar side effects. These signals arise from the rich context of online health information, hence, we expect systems to explore beyond individual statements by considering the thread content as a whole as well as the global experience of each involved users, in order to discover drug side effects or extracting 
 %Kaz2: It is better to specify what "ADRs" are as it first appears in the body of the paper while it is shown in "Abstract."  
 %ADRs 
 %Hoang2: noted with thanks
+% Kishaloy: This sentence is really long. Please break it down.
 adverse drug reactions (ADRs) from online users.
 
 We argue that modeling user expertise from previously experienced side effects is more robust compared to general user profile and engagement features~\cite{mukherjee2014people,vydiswaran2019identifying} as their expertise provides more meaningful signals for side effect discovery.
 % Min: can you say this more strongly?
 % Hoang: noted with thanks
+% Kishaloy: This statement needs a bit more flesh. How can we claim "more robust"? We are probably not directly comparing with them.
 To the best of our knowledge, there is no previous work that incorporates user expertise in side effect discovery in discussion forums at either the thread or post level.
 In this work, given discussions in online health communities, we propose a novel end-to-end neural architecture that jointly models each author's credibility, her global experience and her post's textual content to discover the side effect of unseen drugs.
-We optimize the model on a self-supervised task of predicting for side effect of mentioned drugs, where ground truth is accessible.  
+We optimize the model on a self-supervised task of predicting for side effect of mentioned drugs, where ground truth is accessible.
+% Kishaloy: Rephrase "ground truth is accessible"
 Our key observation is that users can be grouped into clusters 
 that share the same expertise or interest in certain drugs, 
 possibly due to their common treatment or medical history. 
@@ -551,7 +575,7 @@ encoding. $\boldsymbol{v}_{a_{i}}$ is adjusted during training to
 capture hidden states that are significant in forming the final post
 representation. $w_{a_j}$ is then used to compute forward and backward
 weighted feature vectors:
-\begin{eqnarray}
+\begin{eqnarray}\label{eq:w_sum}
   \boldsymbol{h}^f=\sum^n_j w_{a_j} \boldsymbol{h}^f_j, 
   \quad\boldsymbol{h}^b=\sum^n_j w_{a_j} \boldsymbol{h}^b_j. 
 \end{eqnarray}
@@ -866,44 +890,46 @@ The source codes used to generate the results of Side Effect Extraction in Secti
 % %%
 % %% Do not use \listoffigures as most will included as separate files
 \pagebreak
+
+\floatstyle{plain}
+\restylefloat{figure}
 \section*{Figures}
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \captionsetup{justification=centering}
-    \includegraphics[scale=0.4]{neat.png}
-    %Kaz2: It is better to add some words not just "NEAT". 
-    \caption{The neural architecture of our proposed NEAT. The blue boxes \\ denoted general text encoders with attention. \\ The highlighted words in red denoted the text segments that are being \\ attended by the encoder. The yellow oval denotes contextual information of \\ User Experience (UE), Credibility Weight (CW) and Cluster Attention (CA).}
+    \includegraphics[scale=0.5]{neat.png}
+    \caption{The neural architecture of our proposed NEAT. \\ The ``$w_u$'' and ``$v_u$'' boxes denote Credibility Weight (CW) component and User Expertise (UE) component. The yellow boxes and blue boxes denote Cluster Attention (CA) component and neural text encoders with attention. The highlighted words in red denoted the text segments that are being attended by the encoder. The ``$\times$'', ``$\sum$'', and ``$\sigma$'' symbols denote the multiplication, summation, and sigmoid, respectively.}
     \label{fig:NEAT}
 \end{figure}
 \pagebreak
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \captionsetup{justification=centering}
-    \includegraphics[scale=0.4]{lstm.png}
-    \caption{LSTM-based encoder with cluster attention.}
+    \includegraphics[scale=0.5]{lstm.png}
+    \caption{LSTM-based encoder with cluster attention. \\ The ``$\times$'' and ``$+$'' cells denote the attention-weighted summation described in equation~\ref{eq:w_sum}. The ``$\text{C}$'' cell denotes the concatenation of the forward, $\boldsymbol{h^f}$, and backward, $\boldsymbol{h^b}$, hidden states.}
     \label{fig:RNNEncoders}
 \end{figure}
 \pagebreak
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \captionsetup{justification=centering}
-    \includegraphics[scale=0.4]{cnn.png}
-    \caption{CNN-based Encoder with Cluster Attention}
+    \includegraphics[scale=0.5]{cnn.png}
+    \caption{CNN-based Encoder with Cluster Attention. \\ The ``$\times$'' and ``$+$'' cells denote the attention-weighted summation described in equation~\ref{eq:w_sum}. The ``$\text{C}$'' cell denotes the concatenation of the final hidden states of $K$ convolution blocks.}
     \label{fig:CNNEncoders}
 \end{figure}
 \pagebreak
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \captionsetup{justification=centering}
-    \includegraphics[scale=0.5]{pca.png}
-    \caption[Principal Component Analysis]{Principal component analysis.}
+    \includegraphics[scale=0.6]{pca.png}
+    \caption{Principal component analysis. \\ The horizontal axis denotes the number of principle components chosen for PCA, while the vertical axis denotes their percentage of variance explained. We notice that the percentage of variance explained does not increase significantly after $100$ principle components.}
     \label{fig:PCA}
 \end{figure}
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \captionsetup{justification=centering}
-    \includegraphics[scale=0.5]{k_means.png}
-    \caption[Silhouette scores for user clustering]{Silhouette scores for User Clustering.}
+    \includegraphics[scale=0.6]{k_means.png}
+    \caption{Silhouette scores for User Clustering. \\ The horizontal axis denotes the number of clusters chosen for K-means clustering, while the vertical axis denotes their the silhouette scores. We notice that the silhouette scores drop sharply after $7$ clusters.}
     \label{fig:KMeans}
 \end{figure}
 % % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -917,179 +943,176 @@ The source codes used to generate the results of Side Effect Extraction in Secti
 \pagebreak
 \section*{Tables}
 \begin{table}[h!]
-  \centering
-  \captionsetup{justification=centering}
+  \caption{Side effects of anti-depressants.} 
   \footnotesize
-  \begin{tabular}{|c||p{10.5cm}|}
+  \begin{tabular}{l p{11cm}}
     \hline
-    Drugs & Side effects \\ \hline \hline
-    Lexapro & chills, constipation, cough, decreased appetite, \textbf{decreased sexual desire}, \textbf{diarrhea}, \textbf{dry mouth}, joint pain, muscle ache, tingling feeling, \textbf{sleepiness or unusual drowsiness}, unusual dream, \textbf{sweating}, ... \\ \hline
+    Drugs & Side effects \\ \hline
+    Lexapro & chills, constipation, cough, decreased appetite, \textbf{decreased sexual desire}, \textbf{diarrhea}, \textbf{dry mouth}, joint pain, muscle ache, tingling feeling, \textbf{sleepiness or unusual drowsiness}, unusual dream, \textbf{sweating}, ... \\
     Xanax &  abdominal or stomach pain, muscle weakness
-      , \textbf{changed behavior}, chills, cough, decreased appetite, decreased urine, \textbf{diarrhea}, difficult bowel movement, cough, \textbf{dry mouth}, tingling feeling, \textbf{sleepiness or unusual drowsiness}, slurred speech, sweating, yellow eye... \\ \hline
+      , \textbf{changed behavior}, chills, cough, decreased appetite, decreased urine, \textbf{diarrhea}, difficult bowel movement, cough, \textbf{dry mouth}, tingling feeling, \textbf{sleepiness or unusual drowsiness}, slurred speech, sweating, yellow eye... \\
     Zoloft &  \textbf{changed behavior}, decreased sexual desire, \textbf{diarrhea}, \textbf{dry mouth}, heartburn, \textbf{sleepiness or unusual drowsiness}, \textbf{sweating}... \\ \hline
   \end{tabular}
   % Min: need to indicate what the bolding is for.  Please check.
   % Hoang: noted with thanks
-  \caption{Side effects of anti-depressants extracted from a drug -- side effect database. Side effects in common among those listed are bolded.} \label{table:anti_depressant_side_effects}
+  \caption*{The ``Drugs'' and ``Side effects'' columns respectively list the anti-depressants and their side effects extracted from a drug -- side effect database. Side effects in common among those listed are bolded.}
+  \label{table:anti_depressant_side_effects}
 \end{table}
+
 \begin{table}[h!]
-  \centering
-  \captionsetup{justification=centering}
+  \caption{A sample discussion thread from an online health community.}
   \footnotesize
-  %	\resizebox{\textwidth}{!}{%
-  \begin{tabular}{|c||p{7cm}|p{1cm}|p{2cm}|}
+  \begin{tabular}{l p{6.5cm} p{1.5cm} p{2cm} }
     \hline
-	User ID & Post & Drug mentioned & Aggregated side effects\\ \hline \hline
-	3690 & While my experience of 10 years is with Paxil, I expect that Zoloft will be the same. You should definitely feel better within 2 weeks. One way I found to make it easier to sleep was to get lots of exercize. Walk or run or whatever to burn off that anxiety. & \multirow{2}{*}{Zoloft} & changed behavior, decreased sexual desire, diarrhea, dry mouth, heart-  \\ \cline{1-2}
+	User IDs & Posts & Mentioned drugs & Aggregated side effects\\ \hline
+	3690 & While my experience of 10 years is with Paxil, I expect that Zoloft will be the same. You should definitely feel better within 2 weeks. One way I found to make it easier to sleep was to get lots of exercize. Walk or run or whatever to burn off that anxiety. & \multirow{2}{*}{Zoloft, Paxil} & changed behavior, decreased sexual desire, diarrhea, dry mouth, heart-  \\
         26521 & I've heard of people going ``cold turkey'' and having withdrawal at 6 months! Please, get in contact with a doctor ASAP! ``common symptoms include dizziness, electric shock-like sensations, sweating, nausea, insomnia, tremor, confusion, nightmares and vertigo'' &  & burn, sleepiness or unusual drowsiness,... \\ \hline
-  \end{tabular} 
-  \caption{A sample thread, including its list of post--user pairs, mentioned drugs, and side effects.}
+  \end{tabular}
+  \caption*{The ``User IDs'' and ``Posts'' columns respectively list the IDs of users involved in the discussions and their messages. The ``Mentioned drugs'' and ``Aggregated side effects'' columns respectively list the explicitly discussed drugs and their combined side effects.}
   \label{table:sample_thread}
 \end{table}
+
 \begin{table}[h!]
-    \centering
-    \begin{tabular}{|c|c|} \hline
-        Cluster & Most common experienced side effects \\ \hline \hline
-        $c_{1}$ & vision blurred, yellow skin, vision double, yellow eye, nose stuffy \\ \hline
-        $c_{2}$ & headache, itch, stomach pain, weak, nausea \\ \hline
-        $c_{3}$ & itch, irritate, headache, pain abdominal, "stomach cramp" \\ \hline
-        $c_{4}$ & bad taste, nausea, tiredness, irritate, mouth ulcer \\ \hline
-        $c_{5}$ & skin red, itch, rash skin, skin peeling, "burning skin" \\ \hline
-        $c_{6}$ & sneezing, nose runny, nose stuffy, decrease sexual desire, pain breast \\ \hline
+    \caption{Most common experienced side effects for each user cluster $c_{i}$ ($i=1$ to $7$).}
+    \begin{tabular}{l l} \hline
+        Cluster & Most common experienced side effects \\ \hline
+        $c_{1}$ & vision blurred, yellow skin, vision double, yellow eye, nose stuffy \\
+        $c_{2}$ & headache, itch, stomach pain, weak, nausea \\
+        $c_{3}$ & itch, irritate, headache, pain abdominal, "stomach cramp" \\
+        $c_{4}$ & bad taste, nausea, tiredness, irritate, mouth ulcer \\
+        $c_{5}$ & skin red, itch, rash skin, skin peeling, "burning skin" \\
+        $c_{6}$ & sneezing, nose runny, nose stuffy, decrease sexual desire, pain breast \\
         $c_{7}$ & nausea, stomach pain, vomit, diarrhea, pain abdominal \\ \hline
     \end{tabular}
-    \caption{Most common experienced side effects for each user cluster $c_{i}$ ($i=1$ to $7$).}
     \label{table:cluster_results}
 \end{table}
 \begin{table}[h!]
-    \centering
-    \begin{tabular}{|c|c|} \hline
-        \# Users & 14,966 \\ \hline
-        \# Threads & 78,213 \\ \hline
-        Avg. \# of words per post & 67.45 \\ \hline
-        Avg. \# of posts per thread & 3.97 \\ \hline
-        Avg. \# of participated threads per user & 54.7 \\ \hline
-        \# Side effects (SE) & 315 \\ \hline
-        Avg. \# of SEs per thread & 74.25 \\ \hline
-        \# Drugs & 1869 \\ \hline
-        Avg. \# of experienced side effects per user & 128.12 \\ \hline
-    \end{tabular}
-    %\caption{Dataset statistics.}
     \caption{Some statistics on our dataset.}
+    \begin{tabular}{l l} \hline
+        \# Users & 14,966 \\
+        \# Threads & 78,213 \\
+        Avg. words per post & 67.45 \\
+        Avg. posts per thread & 3.97 \\
+        Avg. participated threads per user & 54.7 \\
+        \# Side effects (SE) & 315 \\
+        Avg. SEs per thread & 74.25 \\
+        \# Drugs & 1869 \\
+        Avg. experienced side effects per user & 128.12 \\ \hline
+    \end{tabular}
     \label{table:dataset_statistics}
 \end{table}
 \begin{table}[h!]
-  \captionsetup{justification=centering}
-  \centering
+    \caption{Performance of CNN-based models and LSTM-based models in Ablation Study.}
   \scalebox{1.2}
   \footnotesize
   %\scriptsize
-  \begin{tabular}{l||c|c|c||c|c|c}
+  \begin{tabular}{l | c c c | c c c}
     \hline
-    \textbf{System}& \multicolumn{3}{c||}{\centering{Components}} & \multicolumn{3}{c}{\centering{Evaluation Metrics}} \\
-    & CW & UE & CA & Pre. & Rec. & $F_1$ \\ \hline \hline
-    LSTM-Vanilla   &          &          &           & 0.6173 & 0.407 & 0.4335 \\ \hline
-    LSTM-WPE       &\checkmark&          &           & \textbf{0.6376} & 0.4344 & 0.4503 \\ \hline
-    LSTM-WPEU      &\checkmark&\checkmark&           & 0.6064 & 0.5001 & 0.4896  \\ \hline
-    LSTM-NEAT      &\checkmark&\checkmark&\checkmark & 0.6197 & \textbf{0.5134} & \textbf{0.5064} \\ \hline\hline
-    CNN-Vanilla   & & & &  0.7214 & 0.5503 & 0.5637  \\ \hline
-    CNN-WPE        &\checkmark&          &           & \textbf{0.7423} & 0.5799 & 0.5804 \\ \hline
-    CNN-WPEU       &\checkmark&\checkmark&           & 0.6923 & 0.6350 & 0.5910  \\ \hline
-    CNN-NEAT       &\checkmark&\checkmark&\checkmark & 0.7066 & \textbf{0.6431} & \textbf{0.6139} \\ \hline\hline
+    \textbf{Systems}& \multicolumn{3}{c|}{\centering{Components}} & \multicolumn{3}{c}{\centering{Evaluation Metrics}} \\
+    & CW & UE & CA & Pre. & Rec. & $F_1$ \\ \hline
+    LSTM-Vanilla   &          &          &           & 0.6173 & 0.407 & 0.4335 \\
+    LSTM-WPE       &\checkmark&          &           & \textbf{0.6376} & 0.4344 & 0.4503 \\
+    LSTM-WPEU      &\checkmark&\checkmark&           & 0.6064 & 0.5001 & 0.4896  \\
+    LSTM-NEAT      &\checkmark&\checkmark&\checkmark & 0.6197 & \textbf{0.5134} & \textbf{0.5064} \\ \hline
+    CNN-Vanilla   & & & &  0.7214 & 0.5503 & 0.5637  \\
+    CNN-WPE        &\checkmark&          &           & \textbf{0.7423} & 0.5799 & 0.5804 \\
+    CNN-WPEU       &\checkmark&\checkmark&           & 0.6923 & 0.6350 & 0.5910  \\
+    CNN-NEAT       &\checkmark&\checkmark&\checkmark & 0.7066 & \textbf{0.6431} & \textbf{0.6139} \\ \hline
   \end{tabular}
-  \caption{Experimental results obtained by both CNN-based NEAT and LSTM-based NEAT.  In the ``Component'' columns, ``CW'', ``UE'', ``CA'' denote ``Credibility Weights'', ``User Expertise'' and ``Cluster Attention module components'', respectively.}\label{table:Exp}
+  \caption*{In the ``Components'' column, ``CW'', ``UE'', ``CA'' denote ``Credibility Weights'', ``User Expertise'' and ``Cluster Attention'' module components, respectively. In the ``Evaluation Metrics'' column, ``Pre.'', ``Rec.'' and ``$F_1$'' denote ``Precision'', ``Recall'', and ``$F_1$ score''.}
+  \label{table:Exp}
 \end{table}
 \begin{table}[h!]
-  \captionsetup{justification=centering}
-  \centering
+    \caption{Analysis of NEAT's Credibility versus baselines in approximating credibility proxy.}
   \scalebox{2}
   \footnotesize
   %\scriptsize
-  \begin{tabular}{l||c||c||c}
+  \begin{tabular}{l l l l}
     \hline
-    \textbf{Method}& Thread nDCG@2 & Thread Spearman & Forum Spearman \\\hline \hline
-    Random  & 0.7968 & -0.0271 & 0.0 \\ \hline
-    Post frequency & 0.8812 & 0.4223 & 0.1924 \\ \hline
-    Question frequency & 0.8341 & 0.1773 & 0.0279 \\ \hline
-    NEAT's Credibility & \textbf{0.8856} & \textbf{0.4403} & \textbf{0.3055} \\ \hline\hline
+    \textbf{Methods}& Thread nDCG@2 & Thread Spearman & Forum Spearman \\\hline
+    Random  & 0.7968 & -0.0271 & 0.0 \\
+    Post frequency & 0.8812 & 0.4223 & 0.1924 \\
+    Question frequency & 0.8341 & 0.1773 & 0.0279 \\
+    NEAT's Credibility & \textbf{0.8856} & \textbf{0.4403} & \textbf{0.3055} \\ \hline
   \end{tabular}
-  \caption{Analysis of NEAT's output user scores in approximating credibility proxy.}\label{table:credibility}
+  \caption*{The ``Thread nDCG@2'', ``Thread Spearman'', and ``Forum Spearman'' columns respectively denote the values of Normalized Discounted Cumulative Gain at 2 at thread level, Spearman's rank correlation coefficient at thread level and forum level of each method when using rankings by number of ``thanks'' as ground truths.}
+  \label{table:credibility}
 \end{table}
 \begin{table}[h!]
-  \captionsetup{justification=centering}
-  \centering
+  \caption{Performance of NEAT versus baselines in Side Effect Discovery of Ibuprofen, Levothyroxine, and Metoformin.}
   \scalebox{1.2}
   \footnotesize
-  \begin{tabular}{l||c|c|c|c|c|c|c|c|c}
+  \begin{tabular}{l|c c c|c c c|c c c}
     \hline
-    \textbf{Method}& 
+    \textbf{Methods}& 
     \multicolumn{3}{c|}{\centering{Ibuprofen}} & \multicolumn{3}{c|}{\centering{Levothyroxine}} & \multicolumn{3}{c}{\centering{Metoformin}}\\
-    & Pre. & Rec. & $F_1$ & Pre. & Rec. & $F_1$ & Pre. & Rec. & $F_1$ \\ \hline \hline
-    RF & 0.583 & 0.414 & 0.474 & 0.319 & 0.401 & 0.347 & 0.48 & 0.647 & 0.491 \\ \hline
-    uNEAT & 0.859 & 0.371 & 0.487 & 0.505 & 0.349 & 0.404 & 0.798 & 0.361 & 0.497 \\ \hline
+    & Pre. & Rec. & $F_1$ & Pre. & Rec. & $F_1$ & Pre. & Rec. & $F_1$ \\ \hline
+    RF & 0.583 & 0.414 & 0.474 & 0.319 & 0.401 & 0.347 & 0.48 & 0.647 & 0.491 \\
+    uNEAT & 0.859 & 0.371 & 0.487 & 0.505 & 0.349 & 0.404 & 0.798 & 0.361 & 0.497 \\
     NEAT & 0.845 & 0.427 & \textbf{0.536} & 0.549 & 0.385 & \textbf{0.443} & 0.814 & 0.365 & \textbf{0.504} \\ \hline
   \end{tabular}
-  \caption{Performance of NEAT against Random Forest (RF) and user permutation (uNEAT) in side effect discovery of Ibuprofen, Levothyroxine, and Metoformin.}\label{table:se_discovery1}
+  \caption*{In the ``Methods'' column, ``RF'' denotes Random Forest baseline from Bag-of-word, and ``uNEAT'' denotes User permutation baseline from NEAT. ``Pre.'', ``Rec.'' and ``$F_1$'' denote ``Precision'', ``Recall'', and ``$F_1$ score'', respectively.}
+  \label{table:se_discovery1}
 \end{table}
 \begin{table}[h!]
-  \captionsetup{justification=centering}
-  \centering
+  \caption{Performance of NEAT versus baselines in Side Effect Discovery of Omeprazole and Alprazolam.}
   \scalebox{1.2}
   \footnotesize
-  \begin{tabular}{l||c|c|c|c|c|c}
+  \begin{tabular}{l|c c c|c c c}
     \hline
-    \textbf{Method} &
+    \textbf{Methods} &
     \multicolumn{3}{c|}{\centering{Omeprazole}} &
     \multicolumn{3}{c}{\centering{Alprazolam}}\\
-    & Pre. & Rec. & $F_1$ & Pre. & Rec. & $F_1$ \\ \hline \hline
-    RF & 0.229 & 0.458 & 0.271 & 0.639 & 0.432 & 0.511 \\ \hline
-    uNEAT & 0.534 & 0.393 & 0.394 & 0.981 & 0.551 & 0.663 \\ \hline
+    & Pre. & Rec. & $F_1$ & Pre. & Rec. & $F_1$ \\ \hline
+    RF & 0.229 & 0.458 & 0.271 & 0.639 & 0.432 & 0.511 \\
+    uNEAT & 0.534 & 0.393 & 0.394 & 0.981 & 0.551 & 0.663 \\
     NEAT & 0.522 & 0.421 & \textbf{0.41} & 0.977 & 0.596 & \textbf{0.704} \\ \hline
   \end{tabular}
-  \caption{Performance of NEAT against Random Forest (RF) and user permutation (uNEAT) in side effect discovery of Omeprazole and Alprazolam.}\label{table:se_discovery2}
+  \caption*{In the ``Methods'' column, ``RF'' denotes Random Forest baseline from Bag-of-word, and ``uNEAT'' denotes User permutation baseline from NEAT. ``Pre.'', ``Rec.'' and ``$F_1$'' denote ``Precision'', ``Recall'', and ``$F_1$ score'', respectively.}
+  \label{table:se_discovery2}
 \end{table}
 \begin{table}[h!]
-  \captionsetup{justification=centering}
-  \centering
+  \caption{Performance of NEAT's Attention versus baselines in Side Effect Extraction of Ibuprofen, Levothyroxine, Metoformin, Omeprazole and Alprazolam in term of Precision.}
   \scalebox{1.2}
   \footnotesize
-  \begin{tabular}{l||c|c|c|c|c}
+  \begin{tabular}{l|c c c c c}
     \hline
-    \textbf{Method} & Ibuprofen & Levothyroxine & Metoformin & Omeprazole & Alprazolam \\ \hline \hline
-    UMLS Tagging & 0.6801 & 0.6145 & 0.8378 & \textbf{0.5218} & 0.614 \\ \hline
-    Neural Extractor~\cite{ding2018attentive} & 0.6741 & 0.6259 & 0.8092 & 0.4665 & 0.6161 \\ \hline
+    \textbf{Methods} & Ibuprofen & Levothyroxine & Metoformin & Omeprazole & Alprazolam \\ \hline
+    UMLS Tagging & 0.6801 & 0.6145 & 0.8378 & \textbf{0.5218} & 0.614 \\
+    Neural Extractor~\cite{ding2018attentive} & 0.6741 & 0.6259 & 0.8092 & 0.4665 & 0.6161 \\
     NEAT's Attention & \textbf{0.7073} & \textbf{0.7119} & \textbf{0.8557} & 0.504 & \textbf{0.688} \\ \hline
   \end{tabular}
-  \caption{Precision of NEAT's Attention mechanism against baselines in mentioned side effect extraction.}\label{table:se_extraction}
+  \caption*{In the ``Methods'' column, ``RF'' denotes Random Forest baseline from Bag-of-word, and ``uNEAT'' denotes User permutation baseline from NEAT. ``Pre.'', ``Rec.'' and ``$F_1$'' denote ``Precision'', ``Recall'', and ``$F_1$ score'', respectively.}
+  \label{table:se_extraction}
 \end{table}
 \begin{table}[h!]
-  \captionsetup{justification=centering}
-  \centering
+  \caption{A test example highlighting the extracted side effects obtained by NEAT's Attention versus baselines.}
   \scalebox{1.2}
   \footnotesize
-  \begin{tabular}{c|p{3cm}|p{7cm}}
+  \begin{tabular}{c p{3cm} p{7cm}}
     \hline
-    User id & Cluster's side effects & Post content \\ \hline \hline
+    User IDs & Cluster's side effects & Post content \\ \hline
     8420 & stomach pain, headache, itch, weak, nausea & I won\'t commit suicide but the \textcolor{blue}{discomfort} $<$U$>$ is enough to make me want to die right now [...] I feel like I have sever Akathisia (inner \textcolor{red}{restlessness}$<$U,X$>$ that makes you feel like your body is electrified [...] I also have \textcolor{blue}{nausea}$<$U,X,N$>$, but I can eat a little, \textcolor{blue}{sweating}$<$U,X,N$>$/cold, and extreme \textcolor{red}{fatigue}$<$U,X$>$, although I already have chronic fatigue [...] I also get \textcolor{blue}{anxious}$<$U,X,N$>$ if I take more oxycodone for breakout \textcolor{red}{pain}$<$U$>$ and then go right \textcolor{red}{back}$<$U$>$ down \\ \hline
   \end{tabular}
-  \caption{A test example highlighting the extracted correct (blue) and wrong (red) side effects wrapped in $<>$ by UMLS Tagging (U), Neural Extractor (X) and NEAT's Attention (N)}\label{table:extraction_ex}
+  \caption*{In the ``Post content'' column, the correct and wrong side effects are highlighted in blue and red. The extracted side effects of UMLS Tagging, Neural Extractor and NEAT's Attention are followed by $<U>$, $<X>$, and $<N>$, respectively. The ``Cluster's side effects'' column shows the list of common side effects in user 8420's cluster.}
+  \label{table:extraction_ex}
 \end{table}
 \begin{table}[h!]
-  \captionsetup{justification=centering}
-  \centering
+  \caption{Performance for individual integration of UE and CA in Ablation Study.}
   \scalebox{1.2}
   \footnotesize
   %\scriptsize
-  \begin{tabular}{l||c|c|c||c|c|c}
+  \begin{tabular}{l|c c c|c c c}
     \hline
-    \textbf{System}& \multicolumn{3}{c||}{\centering{Components}} & \multicolumn{3}{c}{\centering{Evaluation Metrics}} \\
-    & CW & UE & CA & Pre. & Rec. & $F_1$ \\ \hline \hline
-    LSTM-UE   &          & \checkmark &           & 0.6513 & 0.4204 & 0.4531 \\ \hline
-    LSTM-CA       & &          & \checkmark & 0.6416 & 0.4293 & 0.4611 \\ \hline\hline
-    CNN-UE   &  & \checkmark & &  0.6738 & 0.6185 &  0.5743  \\ \hline
-    CNN-CA        & &          & \checkmark & 0.7441 & 0.5616 & 0.5883 \\ \hline\hline
+    \textbf{Systems}& \multicolumn{3}{c|}{\centering{Components}} & \multicolumn{3}{c}{\centering{Evaluation Metrics}} \\
+    & CW & UE & CA & Pre. & Rec. & $F_1$ \\ \hline
+    LSTM-UE   &          & \checkmark &           & 0.6513 & 0.4204 & 0.4531 \\
+    LSTM-CA       & &          & \checkmark & 0.6416 & 0.4293 & 0.4611 \\ \hline
+    CNN-UE   &  & \checkmark & &  0.6738 & 0.6185 &  0.5743  \\
+    CNN-CA        & &          & \checkmark & 0.7441 & 0.5616 & 0.5883 \\ \hline
   \end{tabular}
-  \caption{Algorithm performance for individual integration of UE and CA.}\label{table:individual}
+  \caption*{In the ``Components'' column, ``CW'', ``UE'', ``CA'' denote ``Credibility Weights'', ``User Expertise'' and ``Cluster Attention'' module components, respectively. In the ``Evaluation Metrics'' column, ``Pre.'', ``Rec.'' and ``$F_1$'' denote ``Precision'', ``Recall'', and ``$F_1$ score''.}
+  \label{table:individual}
 \end{table}
 % % \begin{table}[h!]
 % % \caption{Sample table title. This is where the description of the table should go.}
