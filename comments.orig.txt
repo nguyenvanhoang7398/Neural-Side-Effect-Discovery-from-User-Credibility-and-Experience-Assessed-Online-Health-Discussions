@@ -1,3 +1,5 @@
+Major revision (29/10/2019):
+
 Reviewer reports:
 
 Reviewer #1:
@@ -106,3 +108,62 @@ P. 6, "...our PCA plots do not show added explanation percentage..." -> please, 
 P. 8, "We employ long-short term memory (LSTM)" -> Rewrite to be more accurate technically: e.g. "We employ a Recurrent Neural Network architecture, namely a Long-Short Term Memory (LSTM) model..."
 P. 12, Table 6 is confusing in certain columns, where contents do not read well. I suggest authors to rearrange contents or improve the arrangements.
 P. 13, Figure 4, "thanks" -> I guess authors mean the type of messages where users reply to other posts in a thread and thank for a given reply. This could be explained in the running text with a short sentence.
+----------------------------------------
+
+Minor revision (29/01/2020):
+
+Reviewer reports:
+
+Reviewer #2: Abstract
+- The sentence ending in "the discussion level that addresses these shortcomings" is not clear. Consider rephrasing to "at the discussion level, thus, addressing the mentioned shortcomings"
+
+Page 4
+- It is not possible to understand the meaning of the sentence starting in line 14 ("Our approach…"). Change "by jointly model" to "jointly modelling".
+
+- Line 19, the authors state that "Such weighted summation is mathematically shown in the Appendix", however, I can only find  three equations relating to a loss function in the appendix. It is unclear what the authors are referring to.
+
+Page 10
+- Line 17, remove "of the Appendix."
+
+Page 12
+- Line 15-16  is incomplete "We also observe a decrease in performance while optimizing the (?) without being aware of users."
+
+Consider adding uNEAT, NEAT, ADR, RF, and nDCG@2 to the abbreviation list.
+
+Table 9 does not require the Pre., Rec., and F1. information in the legend.
+
+
+
+Reviewer #3:
+I have read the corrected version of the article and I have seen an improvement in different aspects: writing, wideness of experiments, and deepness of analysis. The revised version contains an advanced version with regard to what authors presented at the LOUHI workshop. The Section on Related Work is largely better. Providing the code in a github repository is an optimal help for reproducing their work.
+
+In particular, authors have conducted an ablation analysis, and extended their work by adding a CNN architecture enhanced with their approach (attention-based modeling of user credibility + expertise integration). This is a nice contribution to the previous version; however, it seemed to me somewhat confusing because authors do not state explicitely whether the NEAT approach makes reference to the CNN or the LSTM, or to their method (which is implemented in both architectures and outperforms the baselines without their method)... In short, I propose authors be clearer regarding their contribution and what NEAT refers to (a combination of methods that can be implemented in both LSTM or CNN architectures?). I think it could be enough by adding to the abstract or the Introduction a similar sentence to the following (p. 9, l. 56ff): "We implement both CNN and LSTM-based text encoders to confirm the consistent improvement across different neural encoders.".
+
+In my opinion, I think the paper is close to be published. Still, I have some minor concerns and comments that I explain below.
+
+-Section 2, Section Drug Side Effect Discovery: Authors do not justify adequately how neural methods deal with lexical variation. It is true that some algorithms (e.g. fastText, Bojanowski et al. 2017*; FLAIR embeddings, Akbik et al. 2018**) model the morphology of words by leveraging subword or character information. But morphology is only one aspect of lexical variation; what about syntax (e.g. "acute myeloid leukemia" <-> "myeloid leukemia, acute") or semantics (e.g. synonyms: "cephalea" <-> "headache")? I think the main benefits of using neural networks are not stated adequately by posing the argument of lexical variation. Maybe authors should focus on the fact that neural networks seem adequate when a large amount of data is available (hence, rules or lexicon are not the main requirement to process data). In a nutshell, I would refine the argument or nuance it.
+
+*Bojanowski, P., Grave, E., Joulin, A., & Mikolov, T. (2017). Enriching word vectors with subword information. Transactions of the Association for Computational Linguistics, 5, 135-146.
+**Akbik, A., Blythe, D., & Vollgraf, R. (2018, August). Contextual string embeddings for sequence labeling. In Proceedings of the 27th International Conference on Computational Linguistics, 1638-1649
+
+-Section 5, Discussion, p. 12, l. 34ff: Authors pinpoint that the problems when using the UMLS are not strictly related to the lexicon-based approach, but rather to the processing of terms or the matching strategy without considering the context. This can be alleviated with post-processing rules.
+-P. 12, l. 54, "Limitations": I agree with the authors that "user's credibility" can be harmed when users do not give enough "thanks" to posts which convey reliable information; and vice versa, users with a high number of thanks might state wrong information, which could receive many thanks because it is well presented and widely trusted...
+I think another limitation should be commented on regarding the reliability of the experimental data. The "ground truth" in these posts only relies on the annotation of terms expressing drug side effects from the Mayo Clinic database. To generalize the experiments to a broader community (e.g. Medical informatics), the annotation of these posts should be checked by healthcare professionals---e.g. pharmacovigilance experts. At least a small percent, or just focusing on a subset of drugs. I think authors should add this limitation and consider it as a future task to extend and improve their work.
+
+Lastly, there are still some spelling errors to be corrected:
+
+-Throughout the article (and including the abstract: e.g. "her credibility"), the pronoun "her" or "she" is used to refer to "user". I recommend authors change it to a neuter form (e.g. "their") or use "his/her", "he/she", as in p. 5.
+-Abstract, "Conclusions": I would reorder "feasible": "...making feasible a self-supervised approach..."
+-P. 2: "involved drugs..." -> "involving drugs..."
+-P. 3: Please, reword the following sentence, the sense is unclear: "We review the related work as per our listed contribution." L. 17: garnerded -> "gathered"? "achieved"?
+-P. 4: In the following sentence, "it" can be ambiguous and can refer to "our work"; please, reword: "As our work makes use of the rich topographical properties of online communities, it also helps to briefly review..."
+-P. 4: "We first define some terminologies" -> "...define some terms and formalize them as follows"?
+-P. 5, l. 47: "fuly supervised learning" -> "fully"
+-P. 5: "via a drug-side effect database": Authors mention later in the article (in page 9, Section 4) that they used the Mayo Clinic medical database; I think this could also be commented here.
+-P. 6, l. 30: "is of 2-fold" -> "is 2-fold"
+-P. 6, l. 42: "The top 5 most common side effects in each clusters are demonstrated in Table 3" -> "are shown in Table 3"
+-P. 7: There is a missing closing bracket after "Figure 1".
+-P. 10: Please cite the UMLS as follows: Bodenreider, Olivier. The unified medical language system (UMLS): integrating biomedical terminology. Nucleic acids research, 2004, vol. 32, no suppl_1, p. D267-D270.
+-P. 12, l. 15: Something is missing in the following sentence: "while optimizing the * without being aware of users. "
+-Table 10: Regarding the examples obtained by NEAT, where they obtained with the LSTM architecture, by the CNN model, or both (if so, this could be added as a positive outcome of their approach)?
+
