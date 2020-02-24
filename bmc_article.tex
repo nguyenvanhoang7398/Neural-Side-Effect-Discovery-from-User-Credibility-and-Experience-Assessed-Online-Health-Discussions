@@ -120,6 +120,7 @@
 \title{Neural Side Effect Discovery from User Credibility and Experience-Assessed Online Health Discussions}
 % Kishaloy: The title could sound better.
 % Kishaloy: Should be \title{A Neural Framework for Side Effect Discovery from Online Health Discussions with Varying User Credibility}
+% Hoang - JBMS-minor: IMO it sounds more wordy than the current one
 % \title{Neural Architecture-based Treatment Side Effect Prediction from Online User-generated Content and User Credibility Analysis}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -225,17 +226,19 @@
 % \parttitle{Second part title} %if any
 % Text for this section.
 \parttitle{Background}
-Health~2.0 allows patients and caregivers to conveniently seek medical information and advice via e-portals and online discussion forums, especially regarding potential drug side effects. Although online health communities are helpful platforms for obtaining non-professional opinions, they pose risks in communicating unreliable and insufficient information in terms of quality and quantity. Existing methods in extracting user-reported adverse drug reactions (ADRs) in online health forums are not only insufficiently accurate as they disregard author credibility and global drug experience, but are also expensive as they rely on supervised ground truth annotation for individual statement. We propose a NEural ArchiTecture for Drug side effect prediction (NEAT), which 
-is optimized on the task of drug side effect discovery based on a complete discussion, thus, addressing the mentioned shortcomings.
+Health~2.0 allows patients and caregivers to conveniently seek medical information and advice via e-portals and online discussion forums, especially regarding potential drug side effects. Although online health communities are helpful platforms for obtaining non-professional opinions, they pose risks in communicating unreliable and insufficient information in terms of quality and quantity. Existing methods in extracting user-reported adverse drug reactions (ADRs) in online health forums are not only insufficiently accurate as they disregard user credibility and global drug experience, but are also expensive as they rely on supervised ground truth annotation of individual statement. We propose a NEural ArchiTecture for Drug side effect prediction (NEAT), which 
+is optimized on the task of drug side effect discovery based on a complete discussion while being attentive to user credibility and experience, thus, addressing the mentioned shortcomings.
 % Hoang - JBMS-minor R2P1: I have rephrase statement-level and discussion level into individual statement and complete discussion
 % addresses the task of predicting possible drug side effects given a user post.
 %Kishaloy:
-We train our neural model in a supervised fashion using ground truth drug side effects from {\tt mayoclinic.org}.
+We train our neural model in a self-supervised fashion using ground truth drug side effects from {\tt mayoclinic.org}.
 NEAT learns to assign each user a score that is descriptive of their credibility and highlights the critical textual segments of their post.
 % Kishaloy: User, author, patient pretty much mean the same thing in our context. Could you stick to one please?
+% Hoang - JBMS-minor: changed to author/user to user
 % Kishaloy: The current abbreviation has nothing got to do with side effect discovery part. Better to change it to something like NDSD (Neural Drug Side Effect Discovery). Make sure there isn't already some model named like that.
 % Kishaloy: Few things are a bit verbose and confusing. What is statement level? What is discussion level? Does not read well if we keep using abstract concepts without introducing them properly.
 % Kishaloy: Why are we calling it self-supervised? I think the approach is a classic supervised learning, correct me if I am wrong.
+% Hoang - JBMS-minor: the work is self-supervised in the sense that we obtained the annotation for the task by looking up drug side effect in Mayo Clinic database and removing the drug mentions. 
 \parttitle{Results}
 Experiments show that NEAT improves drug side effect discovery from online health discussion by $3.04\%$ from user-credibility agnostic baselines, and by $9.94\%$ from non-neural baselines in term of $F_1$. Additionally, %output credibility scores statistically 
 the latent credibility scores learned by the model correlate well with trustworthiness signals, such as number of ``thanks'' received by other forum members, and improve credibility heuristics such as number of posts by $0.113$ in term of Spearman's rank correlation coefficient. Experience-based self-supervised attention highlights critical phrases such as mentioned side effects, and 
@@ -250,6 +253,8 @@ NEAT considers both user and globally reported experiences in online health foru
 % Recent advancements in neural networks make it possible to extract drug side 
 % effects automatically. This could foster research in several domains such as 
 % clinical studies.
+% Hoang - JBMS-minor: noted with thanks
+Our approach enhances automatic drug side effect discovery and fosters research in several domains such as clinical studies.
 
 \begin{keyword}
 \kwd{online health communities}
@@ -340,17 +345,24 @@ drowsiness}.'' as illustrated in
 % Min: usually numbered artifacts are capitalized ``Table~1'', ``Section~2''
 Table~\ref{table:anti_depressant_side_effects}. Many such examples suggest that drugs which are often prescribed together for the same treatment, such as anti-depressants, are likely to be discussed within a same thread and share common side effects. 
 % Kishaloy: The following sentence is not correct. Not sure what is means. Please check. Also, try to be specific about what "reaction" you mean.
-In addition, users who have experienced certain reactions are opinionated and authoritative on those discussions involving drugs of similar side effects. These signals arise from the rich context of online health information, hence, we expect systems to explore beyond individual statements by considering the thread content as a whole as well as the global experience of each involved users, in order to discover drug side effects or extracting 
-%Kaz2: It is better to specify what "ADRs" are as it first appears in the body of the paper while it is shown in "Abstract."  
-%ADRs 
-%Hoang2: noted with thanks
-% Kishaloy: This sentence is really long. Please break it down.
-adverse drug reactions (ADRs) from online users.
+% In addition, users who have experienced certain reactions are opinionated and authoritative on those discussions involving drugs of similar side effects.
+% Hoang - JBMS-minor: thanks. I have rewritten the sentence
+In addition, users who have experienced certain drug reactions are more outspoken and active on those discussions involving drugs of similar side effects.
+% These signals arise from the rich context of online health information, hence, we expect systems to explore beyond individual statements by considering the thread content as a whole as well as the global experience of each involved users, in order to discover drug side effects or extracting 
+% %Kaz2: It is better to specify what "ADRs" are as it first appears in the body of the paper while it is shown in "Abstract."  
+% %ADRs 
+% %Hoang2: noted with thanks
+% % Kishaloy: This sentence is really long. Please break it down.
+% adverse drug reactions (ADRs) from online users.
+% Hoang - JBMS-minor: thanks, I have broken down the sentence
+These signals arise from the rich context of online health information, hence, we expect systems to explore beyond individual statements. Specifically, they should consider the complete discussion content as well as the global experience of each involved users, in order to discover drug side effects or extract adverse drug reactions (ADRs).
 
 We argue that modeling user expertise from previously experienced side effects is more robust compared to general user profile and engagement features~\cite{mukherjee2014people,vydiswaran2019identifying} as their expertise provides more meaningful signals for side effect discovery.
 % Min: can you say this more strongly?
 % Hoang: noted with thanks
 % Kishaloy: This statement needs a bit more flesh. How can we claim "more robust"? We are probably not directly comparing with them.
+% Hoang - JBMS-minor: thanks, I made the comparison in the related work
+
 To the best of our knowledge, there is no previous work that incorporates user expertise in side effect discovery in discussion forums at either the thread or post level.
 In this work, given discussions in online health communities, we propose a novel end-to-end neural architecture that jointly models each author's credibility, their global experience and their post's textual content to discover the side effect of unseen drugs.
 We optimize the model on a self-supervised task of predicting for side effect of mentioned drugs, where ground truth is accessible.
@@ -382,7 +394,7 @@ Its major principle that assesses user credibility and experience can be easily 
 
 % Hoang - JBMS-minor R3P5: Rewrote the following sentence
 % We review the related work as per our listed contribution. 
-We review the related work in three area corresponding to our major contributions. We first review existing approaches to drug side effect discovery from health forums and social media. Next, we examine how these works incorporate user credibility and expertise in their learning objective. Finally, we justify our choice of neural architecture by discussing its modeling capability of context-rich structures such as online discussion. \\
+We first review existing approaches to drug side effect discovery from health forums and social media. Next, we examine how these works incorporate user credibility and expertise in their learning objective. Finally, we justify our choice of neural architecture by discussing its modeling capability of context-rich structures such as online discussion. \\
 
 {\bf Drug Side Effect Discovery.} Existing methods for drug discovery from online content extract drugs at post and statement level. ADR mining systems typically include 
 a named entity recognition~(NER) model and a relationship or semantic role labeling model~\cite{sampathkumar2014mining,liu2018patient}. 
