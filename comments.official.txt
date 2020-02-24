@@ -1,0 +1,47 @@
+We would like to thank the reviewers for their careful assessment of the work and their consideration for publication. We are pleased to react to the critical comments that have been raised.
+
+Reviewer 2:
+1. The sentence ending in "the discussion level that addresses these shortcomings" is not clear. Consider rephrasing to "at the discussion level, thus, addressing the mentioned shortcomings"
+[Response]
+We have revised the sentence in the Background section as "We propose a NEural ArchiTecture for Drug side effect prediction (NEAT), which 
+is optimized on the task of drug side effect discovery based on a complete discussion while being attentive to user credibility and experience, thus, addressing the mentioned shortcomings.".
+
+2. It is not possible to understand the meaning of the sentence starting in line 14 ("Our approach…"). Change "by jointly model" to "jointly modelling".
+[Response]
+We have revised the sentence in the Related Work section, under "User  Credibility  and  Expertise  Integration", as Our approach to side effect discovery from discussion content by jointly modeling multiple posts and their authors does not derive statement credibility and derives user credibility differently. We assign each user a positive score that is used to weight their post content in representing the discussion's holistic content.
+
+3. Line 19, the authors state that "Such weighted summation is mathematically shown in the Appendix", however, I can only find  three equations relating to a loss function in the appendix. It is unclear what the authors are referring to.
+[Response]
+We have renamed the first header of the appendix as "User Credibility Weighting and the general principle of truth discovery". We also give a description as "In order to demonstrate the correlation between learned user credibility scores and the general notion of trustworthiness, we derive how user credibility scores are updated after each turn of back-propagation via stochastic gradient descent.".
+
+4. Line 17, remove "of the Appendix."
+[Response]
+We have revised the sentence in the Results section, under "Ablation Study", as "Table 5 shows the precision, recall, and F1 obtained by our method and the four baselines. We also report the performance of baselines implemented UE and CA individually in Table 11".
+
+5. Line 15-16  is incomplete "We also observe a decrease in performance while optimizing the (?) without being aware of users."
+[Response]
+We have revised the sentence in the Discussion section, under "Drug Side Effect Discovery", as "We also observe a decrease in performance while optimizing NEAT without being aware of users.".
+
+6. Table 9 does not require the Pre., Rec., and F1. information in the legend.
+[Response]
+We have revised the legend of Table 9 accordingly.
+
+Reviewer 3:
+1. In short, I propose authors be clearer regarding their contribution and what NEAT refers to (a combination of methods that can be implemented in both LSTM or CNN architectures?). I think it could be enough by adding to the abstract or the Introduction a similar sentence to the following (p. 9, l. 56ff): "We implement both CNN and LSTM-based text encoders to confirm the consistent improvement across different neural encoders.".
+[Response]
+We have revised our first contribution in the Background section as "We propose a NEural ArchiTecture, NEAT, that captures user expertise and credibility, the semantic content of individual posts and the holistic thread to improve side effect discovery from online health discussions. Its major principle that assesses user credibility and experience can be easily generalized across different neural attentional encoders.".
+
+2. Section 2, Section Drug Side Effect Discovery: Authors do not justify adequately how neural methods deal with lexical variation. It is true that some algorithms (e.g. fastText, Bojanowski et al. 2017*; FLAIR embeddings, Akbik et al. 2018**) model the morphology of words by leveraging subword or character information. But morphology is only one aspect of lexical variation; what about syntax (e.g. "acute myeloid leukemia" <-> "myeloid leukemia, acute") or semantics (e.g. synonyms: "cephalea" <-> "headache")? I think the main benefits of using neural networks are not stated adequately by posing the argument of lexical variation. Maybe authors should focus on the fact that neural networks seem adequate when a large amount of data is available (hence, rules or lexicon are not the main requirement to process data). In a nutshell, I would refine the argument or nuance it.
+[Response]
+We have elaborate our argument on how neural approaches can model lexical variations of works by capturing their semantics. Specifically, in the Related Work section, under Drug Side Effect Discovery, we stated that "Distributed  word  representations constructed  from  context  can  capture semantics  based  on  the  hypothesis  that  synonyms  often  share  similar  contextual words. For example, ”headache” and ”cephalea” will have close representations if they share contextual words such as ”head” or ”pain”. Approaches to sub-word embedding model the morphology of words by leveraging sub-word or character information. These representations are naturally integrated into neural sequential models that are sensitive to syntactic order."
+
+3. Section 5, Discussion, p. 12, l. 34ff: Authors pinpoint that the problems when using the UMLS are not strictly related to the lexicon-based approach, but rather to the processing of terms or the matching strategy without considering the context. This can be alleviated with post-processing rules.
+[Response]
+We have include our argument for this point the Discussion section, under "Side Effect Extraction with Cluster Attention", as "Post-processing rules can arguably alleviate the shortcomings of UMLS's matching strategy due to missing context awareness. However, such rules are not efficient to engineer, while unsupervised context encoding for keyword-based extraction is challenging, and is left open for future works."
+
+4. P. 12, l. 54, "Limitations": I agree with the authors that "user's credibility" can be harmed when users do not give enough "thanks" to posts which convey reliable information; and vice versa, users with a high number of thanks might state wrong information, which could receive many thanks because it is well presented and widely trusted...
+I think another limitation should be commented on regarding the reliability of the experimental data. The "ground truth" in these posts only relies on the annotation of terms expressing drug side effects from the Mayo Clinic database. To generalize the experiments to a broader community (e.g. Medical informatics), the annotation of these posts should be checked by healthcare professionals---e.g. pharmacovigilance experts. At least a small percent, or just focusing on a subset of drugs. I think authors should add this limitation and consider it as a future task to extend and improve their work.
+[Response]
+We have include our response to this point in under "Limitations", as "We realize the limitation arisen from annotating a post's side effects solely from looking up the mentioned drugs in the Mayo Clinic database. To generalize the usability and ensure the effectiveness of the learning framework to a broader community such as Medical informatics, we suggest to have these annotations cross-checked with healthcare professionals or pharmacovigilance experts, in order to ensure the correlation between Mayo Clinic's annotations and the post's actually described side effects.".
+
+We have addressed the remaining comments on typos, misspellings and grammar changes.

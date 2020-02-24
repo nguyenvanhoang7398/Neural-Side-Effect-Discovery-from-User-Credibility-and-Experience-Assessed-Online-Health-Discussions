@@ -60,7 +60,7 @@ In my opinion, I think the paper is close to be published. Still, I have some mi
 
 -Section 5, Discussion, p. 12, l. 34ff: Authors pinpoint that the problems when using the UMLS are not strictly related to the lexicon-based approach, but rather to the processing of terms or the matching strategy without considering the context. This can be alleviated with post-processing rules.
 
-> Hoang: post-processing rules are possible but not scalable. Moreover, considering the context in long sentences is a major challenge for feature-based approaches.
+> Hoang: post-processing rules are possible but not scalable to engineer. Unsupervised approaches to context encoding for UMLS or general feature-based approaches might be efficient but challenging, which is left open for future works.
 
 > Min: state the planned action for this (here and for other feedback items).  It is important the reviewer know what you did in reaction to their comments.  
 
