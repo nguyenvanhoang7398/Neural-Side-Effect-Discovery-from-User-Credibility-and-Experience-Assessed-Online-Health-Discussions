@@ -242,7 +242,7 @@ NEAT learns to assign each user a score that is descriptive of their credibility
 \parttitle{Results}
 Experiments show that NEAT improves drug side effect discovery from online health discussion by $3.04\%$ from user-credibility agnostic baselines, and by $9.94\%$ from non-neural baselines in term of $F_1$. Additionally, %output credibility scores statistically 
 the latent credibility scores learned by the model correlate well with trustworthiness signals, such as number of ``thanks'' received by other forum members, and improve credibility heuristics such as number of posts by $0.113$ in term of Spearman's rank correlation coefficient. Experience-based self-supervised attention highlights critical phrases such as mentioned side effects, and 
-enhances fully supervised ADR extraction models based on sequence labelling by $5.502\%$ in term of Precision.
+enhances fully supervised ADR extraction models based on sequence labelling by $5.502\%$ in terms of Precision.
 % Kishaloy: Again, check the self-supervised part.
 
 \parttitle{Conclusions}
@@ -332,8 +332,7 @@ valuable sources for researchers~\cite{leyens2017use,martin2014big}.
 % Min: I think most journal prefer list citations [1,2,3] rather than separate citations [1][2][3].  Please check.
 % Min: global replace as needed
 Although patients use these platforms to access valuable information about drug reactions, there are challenges to their effective, large-scale use. There is lexical variation where users describe the same side effect differently.  For example, \textit{dizziness} can be expressed as
-\textit{giddiness} or \textit{my head is spinning}, posing difficulty to most feature-based or keyword matching approaches. Separately there are valid concerns regarding credibility of user-generated contents to be harvested at large which research
-has shown to be of variable quality and should be approached with caution~\cite{impicciatore1997reliability,peterson2003consumers,hajli2015credibility,poddar2019}. One proxy indicator for information quality is the author's trustworthiness~\cite{li2016survey}. In the context of social media or online forums, user trustworthiness is 
+\textit{giddiness} or \textit{my head is spinning}, posing difficulty to most feature-based or keyword matching approaches. Separately,  there are valid concerns regarding credibility of user-generated contents to be harvested at large in which research has shown to be of variable quality and should be approached with caution~\cite{impicciatore1997reliability,peterson2003consumers,hajli2015credibility,poddar2019}. One proxy indicator for information quality is the author's trustworthiness~\cite{li2016survey}. In the context of social media or online forums, user trustworthiness is 
 often approximated via ratings from other users, \textit{i.e.,} number of thanks or upvotes~\cite{rains2009health}, or via their consistency of reporting credible information~\cite{hoang2018authenticity,mukherjee2014people}. In addition to credibility, forum members also offer expertise thanks to their own experience -- with prescriptions in particular -- and facilitate responses to drug queries~\cite{vydiswaran2019identifying}. For instance, while reporting expected side effects for a specific treatment, patients with long-term use of certain drugs can be a complementary source of information:  %{\it E.g.}:
 
 {\footnotesize
@@ -402,7 +401,7 @@ a named entity recognition~(NER) model and a relationship or semantic role label
 %Recent neural approaches~\cite{ding2018attentive,wunnava2019adverse} 
 Recent neural approaches address lexical variation in user-generated content -- the difficulty faced by traditional keyword matching and rule-based approaches -- to improve recognition and labeling components~\cite{ding2018attentive,wunnava2019adverse}. 
 % Hoang - JBMS-minor R3P2: elaborate more on how neural approaches can model lexical variations of works by capturing their semantics
-Distributed word representations~\cite{mikolov2013distributed}~\cite{pennington2014glove} constructed from context can capture semantics based on the hypothesis that synonyms often share similar contextual words. For example, "headache" and "cephalea" will have close representations if they share contextual words such as "head" or "pain". Approaches to sub-word embedding~\cite{bojanowski2017enriching}~\cite{akbik2019flair} model the morphology of words by leveraging sub-word or character information. These representations are naturally integrated into neural sequential models~\cite{kim2014convolutional}~\cite{sutskever2014sequence}~\cite{devlin2019bert} that are sensitive to syntactic order. 
+Distributed word representations~\cite{mikolov2013distributed,pennington2014glove} constructed from context can capture semantics based on the hypothesis that synonyms often share similar contextual words. For example, ``headache'' and ``cephalea'' will have close representations if they share contextual words such as ``head'' or ``pain''. Approaches to sub-word embedding~\cite{bojanowski2017enriching,akbik2019flair} model the morphology of words by leveraging sub-word or character information. These representations are naturally integrated into neural sequential models~\cite{kim2014convolutional,sutskever2014sequence,devlin2019bert} that are sensitive to syntactic order. 
 However, supervised sequence labeling or mention extraction approaches require laborious annotations at the word (token) level, and are only capable of discovering side effects that are explicitly present in the text. Expert supervision or additional semantic matching models are also required to map such recognized text segments to standardized vocabulary or thesaurus~\cite{yates2015extracting}. In contrast, our proposed self-supervised task formulation discovers the aggregated side effects of mentioned drugs for each community discussion by considering the whole thread's content. The list of discussed drugs are tagged by forum moderators or obtained by pattern matching. This learning design not only effectively alleviates the need for expensive, finer-grained annotations but also allows for the prediction of side effects not explicitly mentioned in the discussion. \\
 
 {\bf User Credibility and Expertise Integration.}
@@ -412,11 +411,11 @@ Credibility is of the utmost concern in large scale knowledge harvesting~\cite{h
 % by jointly model
 % Hoang - JBMS-minor R2P2:
 by jointly modeling
-multiple posts and their authors does not derive statement credibility and derives user credibility differently. We assign each user a positive score that is used to weight their post content in representing the discussion's holistic content.
+multiple posts and authors does not derive statement credibility and derives user credibility differently. We assign each user a positive score that is used to weight their post content in representing the discussion's holistic content.
 % Hoang - JBMS-minor R2P2: Label the appendix section
 Such weighted summation is mathematically shown in the Appendix~\ref{appendix:math} to conform to the general principle of truth discovery, 
 where sources providing credible information should be assigned higher credibility scores, and the information that is supported by credible sources will be
-regarded as true~\cite{li2016survey}. Although our dataset does not provide any ground truth for user trustworthiness, we followed the previous usage of ratings or upvotes in online forums and adopted number of ``thanks'' received from other forum members~\cite{rains2009health} as our proxy for user trustworthiness. Previous works have modeled user expertise based on user profiles such as demographics; activity features such as posting frequency and posting pattern through time series and network analysis~\cite{mukherjee2014people, vydiswaran2019identifying}. As shown in an earlier example in section~\ref{sec:background}, modeling user expertise from previously experienced side effects better captures author authoritativeness for certain side effects and is universally applicable to any online platform. \\
+regarded as true~\cite{li2016survey}. Although our dataset does not provide any ground truth for user trustworthiness, we followed the previous usage of ratings or upvotes in online forums and adopted the number of ``thanks'' received from other forum members~\cite{rains2009health} as our proxy for user trustworthiness. Previous works have modeled user expertise based on user profiles such as demographics; activity features such as posting frequency and posting pattern through time series and network analysis~\cite{mukherjee2014people, vydiswaran2019identifying}. As shown in an earlier example in Section~\ref{sec:background}, modeling user expertise from previously experienced side effects better captures author authoritativeness for certain side effects and is universally applicable to any online platform. \\
 
 {\bf Modeling Online Discussion Content and Structure}
 % Min: what objects do you mean?
@@ -425,7 +424,7 @@ As our work makes use of the rich topographical properties of online communities
 % Hoang - JBMS-minor R3P5: Rewrote the following
 % it also helps to 
 we briefly review approaches for modeling textual content and post-thread discussion structure. 
-Previous works use probabilistic graphical models implicitly to represent textual content (especially, topic modeling) as bag-of-words~\cite{yates2015extracting}~\cite{wang2014sideeffectptm} or stylistic or linguistic features~\cite{mukherjee2014people}.
+Previous works use probabilistic graphical models implicitly to represent textual content (especially, topic modeling) as bag-of-words~\cite{yates2015extracting,wang2014sideeffectptm} or stylistic or linguistic features~\cite{mukherjee2014people}.
 % Previous works which made use of Topic Modeling and Probabilistic Graphical Models implicitly represent textual content as bag-of-words~\cite{yates2015extracting}~\cite{wang2014sideeffectptm} or stylistic or linguistic features~\cite{mukherjee2014people}. 
 % Min: ``moderate'' and ``rich'' in terms of what?  Size / length? Structure?
 % Hoang: noted with thanks
@@ -454,7 +453,7 @@ we define some terms and formalize them as follows:
 %\item A \textit{post $p$} is the most basic document, containing a sequence of sentences. It is written by a \textit{user $u$}, and belongs to a \textit{thread $t$}.
 % Hoang-JBMS: I agree. Noted with thanks.
 \item A \textit{post $p$} is a message in online forums and contains a sequence of words. Post $p$ is written by a \textit{user $u$} and belongs to a \textit{thread $t$}.
-\item A \textit{user $u$} is a member of an online community. He/She participates in a list of threads, \textit{ i.e., $T_u = \{t_1, t_2, \ldots, t_l\}$} by writing at least one post in each thread.
+\item A \textit{user $u$} is a member of an online community and participates in a list of threads, \textit{ i.e., $T_u = \{t_1, t_2, \ldots, t_l\}$} by writing at least one post in each thread.
 We use the terms \textit{user} and \textit{author}, as well as \textit{user experience} and \textit{user expertise} interchangeably.
 \noindent
 Each user is characterized by their credibility and expertise. Credibility $w_u$ of user $u$ reflects the probability of user $u$ provide trustworthy or helpful information, and is approximated from the number of ``thanks'' given from other forum members.
@@ -529,7 +528,11 @@ we hypothesize that considering the credibility and experience of user $u \in \l
 We also propose our neural architecture, NEAT, that jointly models user credibility, expertise and text content with attention while optimizing for the self-supervised objective.
 %Kaz2: "the whole set of ..." is better than "a set of ..."?
 %from a set of possible side effects. 
-The network has three major components: user expertise representation with rich multi-dimensional vectors; cluster-sensitive attention being capable of focusing on relevant phases for post content encoding improvement; and credibility weighting mechanism which effectively learns to assign credibility score to each user based on their content and enhances thread encoding. Their implementation will be discussed in the following sections. Figure~\ref{fig:NEAT} shows the detailed network architecture of our model. \\
+The network has three major components: user expertise representation with rich multi-dimensional vectors; cluster-sensitive attention being capable of focusing on relevant phases for post content encoding improvement; and credibility weighting mechanism which effectively learns to assign credibility score to each user based on their content and enhances thread encoding. 
+%Kaz-MinorRev: I think the active mode is better than passive mode here. 
+%Their implementation will be discussed in the following sections. 
+We discuss their implementation in the following sections. 
+Figure~\ref{fig:NEAT} shows the detailed network architecture of our model. \\
 
 \textbf{User Expertise Representation (UE).}  We embed each user $u
 \in U$ as a vector $\boldsymbol{v}_{u}$ so that the vector captures
@@ -545,7 +548,7 @@ number of included principal components. Since our PCA plots do not show signifi
 our original $\boldsymbol{M}^{\ast}\in \mathbb{R}^{|U|\times|S|}$ to
 user expertise matrix $\boldsymbol{M} \in \mathbb{R}^{|U| \times g}$. \\
 
-\textbf{User Cluster Attention (CA).} We make an assumption via observations that users in online health communities can be effectively grouped into clusters based on their previous side effect experience. The advantages of clustering users is 2-fold. First, since users in the same clusters share certain parameters, they are jointly modeled and more active forum members leverage less active ones. Secondly, clustering efficiently reduces the number of parameters and improves optimization. We apply K-means -- a distance-based unsupervised clustering algorithm~\cite{MacQueen67} -- to binary user experience vectors $\boldsymbol{v^*_u}$ after normalization. 
+\textbf{User Cluster Attention (CA).} We make an assumption via observations that users in online health communities can be effectively grouped into clusters based on their previous side effect experience. The advantages of clustering users is 2-fold. First, since users in the same clusters share certain parameters, they are jointly modeled and more active forum members leverage less active ones. Secondly, clustering efficiently reduces the number of parameters and improves optimization. We apply $K$-means -- a distance-based unsupervised clustering algorithm~\cite{MacQueen67} -- to binary user experience vectors $\boldsymbol{v^*_u}$ after normalization. 
 %Kaz2: cosine distance => cosine similarity?
 %By using cosine distance, 
 By using cosine similarity, 
@@ -554,9 +557,9 @@ observe the sharp drop after $c=7$.
 %The average silhouette score of 0.57 for our choice of $c=7$ indicates that 
 We observe the average silhouette score of 0.57 for our choice of $c=7$, indicating that users are moderately matched to their own groups and separated from other groups. The top 5 most common side effects in each clusters are shown in Table~\ref{table:cluster_results}.
 
-In a larger domain of Natural Language Processing, attention has become an integral part for modeling text sequences~\cite{luong2015effective}~\cite{vaswani2017attention}. By learning to focus on essential text segments, attention allows text encoders to capture long term semantic dependencies with regard to auxiliary contextual information~\cite{chen2016neural}~\cite{feng2019attention}. 
+In a larger domain of natural language processing, attention has become an integral part for modeling text sequences~\cite{luong2015effective,vaswani2017attention}. By learning to focus on essential text segments, attention allows text encoders to capture long term semantic dependencies with regard to auxiliary contextual information~\cite{chen2016neural,feng2019attention}. 
 %Kaz2: Need to specify what "ADR" is like "a... d... r..." (ADR)
-In our related task of ADR mentions extraction, attention has been adopted recently in neural sequence labelling models~\cite{ding2018attentive}~\cite{ramamoorthy2018attentive}, 
+In our related task of ADR mentions extraction, attention has been adopted recently in neural sequence labelling models~\cite{ding2018attentive,ramamoorthy2018attentive}, 
 %Kaz2: Rewrite as follows 
 %and reports convincing improvement. 
 resulting in promising improvement. 
@@ -616,9 +619,8 @@ weighted feature vectors:
 We concatenate the forward and backward vectors to obtain a single
 vector, following previous bi-directional LSTM practice~\cite{ma2016end}. \\
 
-Our choice of CNN-based encoder is inspired by existing works
-~\cite{kim2014convolutional}~\cite{yin2016abcnn}. A convolution block $k$ consists of two sub-components: a convolution layer and a cluster attention layer. In the convolution layer, a kernel of window $s, 0 < s < n$ of weight $\boldsymbol{W}$ is used to generate the hidden representation $\boldsymbol{h^k_j}$ for the word embeddings
-$\boldsymbol{v_{w_{i-s+1}}},\cdots,\boldsymbol{v_{w_i}}$ as 
+Our choice of CNN-based encoder is inspired by existing works~\cite{kim2014convolutional,yin2016abcnn}. A convolution block $k$ consists of two sub-components: a convolution layer and a cluster attention layer. In the convolution layer, a kernel of window $s$ $(0 < s < n)$ of weight $\boldsymbol{W}$ is used to generate the hidden representation $\boldsymbol{h^k_j}$ for the word embeddings
+$\boldsymbol{v_{w_{i-s+1}}},\cdots,\boldsymbol{v_{w_i}}$ as:  
 \begin{equation}
     \boldsymbol{h^k_j} = CONV(\boldsymbol{W}, [\boldsymbol{v_{w_{i-s+1}}},\cdots,\boldsymbol{v_{w_i}}])
 \end{equation} 
@@ -684,7 +686,7 @@ We conduct experiments to validate the effectiveness of our proposed model. More
 {\bf Dataset and Experiment Settings.} We conduct our experiments on the same dataset as~\cite{mukherjee2014people} including 15,000 users and 2.8 million posts extracted from 620,510 HealthBoards$^{[1]}$ threads. The ground truths for self-supervised learning are defined as side effects of mentioned drugs in the discussion. As annotating such amount of posts is expensive, drug side effects are extracted from Mayo Clinic's Drugs and Supplements portal\footnote{\scriptsize{\url{https://www.mayoclinic.org/drugs-supplements}}} and are used as surrogates for potential drug reactions. From the original dataset, we only extract threads that are annotated with drugs and their side effects, along with the lists of contained posts and corresponding users. Table~\ref{table:dataset_statistics} shows 
 some statistics of our dataset. 
 
-For CNN encoder we adopted the work by Kim (2014)~\cite{kim2014convolutional} and used 3 kernels of sizes 3, 4, 5 with output channel size = 100. For Bi-LSTM we use 1 layer with hidden state size = 32.
+For CNN encoder, we adopted the work by Kim (2014)~\cite{kim2014convolutional} and used 3 kernels of sizes 3, 4, 5 with output channel size = 100. For Bi-LSTM we use 1 layer with hidden state size = 32.
 
 We used Natural Language Toolkit~\footnote{\scriptsize{\url{{https://www.nltk.org/index.html}}}} for tokenizationa and and stop-word elimination before representation modeling. 
 We perform cross-validation (8, 1, and 1 folds for training, validation, and testing, respectively). We perform PCA and $K$-means clustering on training set, using scikitlearn's built-in modules~\cite{scikit-learn}, 
@@ -720,7 +722,7 @@ At thread-wise scope, we examine how accurate our output user scores are in rank
 drugs that have not been discussed in training data. We highlight the performance of an end-to-end neural architecture against Random Forest (RF) -- a non-neural baseline trained on bag-of-word text representations of thread content. Additionally, we examine a baseline, uNEAT, where the user identities are randomized in order to verify that NEAT effectively considers both user credibility and expertise. The results of drug side effect discovery on Ibuprofen, Levothyroxine, Metoformin (Table~\ref{table:se_discovery1}), and Omeprazole, Alprazolam (Table~\ref{table:se_discovery2}) are reported. \\
 
 {\bf Side Effect Extraction with Cluster Attention.}\label{subsec:se_extraction}
-As discussed in section~\ref{sec:proposed_method}, our employed attention mechanism not only offers a better textual encoding capacity but also locates the informative segments of user-generated content. This concept is well-aligned with ADR mention extraction, which is mainly modeled as a sequence labeling problem. We conduct experiments to examine the effectiveness of CNN-NEAT's Attention in locating the text segments containing the correct side effects. We benchmark our results against a lexicon-based tagging using UMLS thesaurus for medical terms~\cite{bodenreider2004unified} and a state-of-the-art neural side effect extractor~\cite{ding2018attentive} which was supervisedly trained to identify side effect mentions in social media contents. In this task, correctly predicting the positive side effects is of the utmost importance, hence we benchmark the text segments extracted from CNN-NEAT's Attention against two mentioned baselines on precision metric. The experiment results on Ibuprofen, Levothyroxine, Metoformin, Omeprazole and Alprazolam are reported in Table~\ref{table:se_extraction}.
+As discussed in Section~\ref{sec:proposed_method}, our employed attention mechanism not only offers a better textual encoding capacity but also locates the informative segments of user-generated content. This concept is well-aligned with ADR mention extraction, which is mainly modeled as a sequence labeling problem. We conduct experiments to examine the effectiveness of CNN-NEAT's Attention in locating the text segments containing the correct side effects. We benchmark our results against a lexicon-based tagging using UMLS thesaurus for medical terms~\cite{bodenreider2004unified} and a state-of-the-art neural side effect extractor~\cite{ding2018attentive} which was supervisedly trained to identify side effect mentions in social media contents. In this task, correctly predicting the positive side effects is of the utmost importance, hence, we benchmark the text segments extracted from CNN-NEAT's Attention against two mentioned baselines on precision metric. The experiment results on Ibuprofen, Levothyroxine, Metoformin, Omeprazole and Alprazolam are reported in Table~\ref{table:se_extraction}.
 
 \section{Discussion}\label{sec:discussion}
 {\bf Ablation Study.}
@@ -743,27 +745,27 @@ that adding CA (LSTM-NEAT vs. LSTM-WPEU) uniformly improves all retrieval metric
 CNN-NEAT, demonstrates similar performance improvements. Although CNN-NEAT and its ablated baselines obtain higher performance than the LSTM counterparts, when measuring relative improvement, the gains are comparable. This confirms the consistent improvement of our proposed components across different neural encoders. According to the macroscopic analysis of results in
 Table~\ref{table:Exp}, we generally conclude that all of the three components in our proposed architecture, namely, CW, UE, and
 CA give a positive impact on the overall performance of the
-model. We observe consistent improvements in $F_1$ after adding each component, and this solidates our stated hypotheses. The significance of these findings were verified by one-tail t-test of $p < 0.05$. \\
+model. We observe consistent improvements in $F_1$ after adding each component, and this solidates our stated hypotheses. The significance of these findings were verified by one-tail $t$-test of $p < 0.05$. \\
 
 {\bf User Credibility Analysis.}
 Results at both thread and forum level show that user scores assigned by NEAT reasonably approximate our credibility proxy, \textit{i.e.} the number of ``thanks'' given by other forum users. Regarding ranking users by their helpfulness within a thread, NEAT's credibility improves heuristics such as post or question frequency marginally by 0.0044 in term of nDCG@2 and moderately by 0.0180 in term of Spearman's coefficient. Regarding ranking users by their helpfulness in the whole forum, we report a more significant improvement of 0.1131 in term of Spearman's coefficient from the closest performing baseline of post frequency. These results verify the representativeness of the credibility scores obtained self-supervisedly by our system. \\
 
 {\bf Drug Side Effect Discovery.}
-Both neural methods, namely uNEAT and NEAT, outperform non-neural approach based on Bag-of-word vectors on all metrics and across all drugs. Specifically, NEAT improves RF by 9.94\% in $F_1$ on average across five different drugs. This confirms the modeling capability of our neural network and justifies its application to our task. We also observe a decrease in performance while optimizing 
+Both neural methods, namely uNEAT and NEAT, outperform non-neural approach based on bag-of-word vectors on all metrics and across all drugs. Specifically, NEAT improves RF by 9.94\% in $F_1$ on average across five different drugs. This confirms the modeling capability of our neural network and justifies its application to our task. We also observe a decrease in performance while optimizing 
 % Hoang - JBMS-minor R2P5:
 % the
 NEAT without being aware of users. Such shortcoming is prevalent in all side effect discovery settings, ranging from 0.7\% F1 score decrease in Metformin to 4.9\% decrease in Ibuprofen. Overall, being aware of user experience and expertise improves drug side effect discovery by 3.04\% in $F_1$ on average across five different drugs. This again confirms our hypothesis that considering the credibility and experience of users improves drug side effect discovery performance in online health communities. \\
 
-{\bf Side Effect Extraction with Cluster Attention.} We notice improvement of CNN-NEAT's Attention from both baselines across most drugs with the exception of Omeprazole. At macro level, positive precision scores confirm CNN-NEAT's emphasis on critical text segments, \textit{i.e.} those containing correct drug side effects. The significant improvement in most cases also suggests the selectiveness of CNN-NEAT's Attention. Unlike the two proposed baselines which extract any side effect mentions, CNN-NEAT's Attention selectively emphasize on the correct ADR. We examine this hypothesis at micro level in Table~\ref{table:extraction_ex}. UMLS tagging identifies any phrase having medical nuance, \textit{i.e.} \textit{pain} and \textit{back}, and potentially forms side effects that are not actually mentioned, \textit{i.e.} \textit{back pain}, whereas both neural methods, Neural Extractor and NEAT, that model textual semantics are able to dismiss such trivial mentions. \textit{Discomfort}, although correct, is questionably an intentionally reported side effects and is also dismissed by both Neural Extractor and CNN-NEAT. Post-processing rules can arguably alleviate the shortcomings of UMLS's matching strategy due to missing context awareness. However, such rules are not efficient to engineer, while unsupervised context encoding for keyword-based extraction is challenging, and is left open for future works. On the other hand, we attempt to explain CNN-NEAT's decision to dismiss \textit{restlessness} based on its contextual awareness. The attention was derived from each cluster's experienced side effects, in which there is the \textit{weak} side effects being semantically contradicting to \textit{restlessness}. Although having not fully covered all side effects, all mentions extracted by CNN-NEAT are accurate, giving it the highest precision amongst the three considered models. Specifically, CNN-NEAT's Attention improves neural ADR extraction model~\cite{ding2018attentive} by 5.502\% and UMLS tagging by 3.974\% on average in term of Precision across five different drugs. Despite being derived from a self-supervised objective, CNN-NEAT's Attention offers helpful indications for attention-based models and a strong baseline for ADR extraction. \\
+{\bf Side Effect Extraction with Cluster Attention.} We notice improvement of CNN-NEAT's Attention from both baselines across most drugs with the exception of Omeprazole. At macro level, positive precision scores confirm CNN-NEAT's emphasis on critical text segments, \textit{i.e.} those containing correct drug side effects. The significant improvement in most cases also suggests the selectiveness of CNN-NEAT's Attention. Unlike the two proposed baselines which extract any side effect mentions, CNN-NEAT's Attention selectively emphasizes on the correct ADR. We examine this hypothesis at micro level in Table~\ref{table:extraction_ex}. UMLS tagging identifies any phrase having medical nuance, \textit{i.e.} \textit{pain} and \textit{back}, and potentially forms side effects that are not actually mentioned, \textit{i.e.} \textit{back pain}, whereas both neural methods, Neural Extractor and NEAT, that model textual semantics are able to dismiss such trivial mentions. \textit{Discomfort}, although correct, is questionably an intentionally reported side effects and is also dismissed by both Neural Extractor and CNN-NEAT. Post-processing rules can arguably alleviate the shortcomings of UMLS's matching strategy due to missing context awareness. However, such rules are not efficient to engineer, while unsupervised context encoding for keyword-based extraction is challenging, and is left open for future works. On the other hand, we attempt to explain CNN-NEAT's decision to dismiss \textit{restlessness} based on its contextual awareness. The attention was derived from each cluster's experienced side effects, in which there is the \textit{weak} side effects being semantically contradicting to \textit{restlessness}. Although having not fully covered all side effects, all mentions extracted by CNN-NEAT are accurate, giving it the highest precision amongst the three considered models. Specifically, CNN-NEAT's Attention improves neural ADR extraction model~\cite{ding2018attentive} by 5.502\% and UMLS tagging by 3.974\% on average in terms of Precision across five different drugs. Despite being derived from a self-supervised objective, CNN-NEAT's Attention offers helpful indications for attention-based models and a strong baseline for ADR extraction. \\
 
 {\bf Limitations.} We foresee a limitation arisen from our design of user's credibility defined by Equation~(\ref{eq:user_credibility}) as well as our choice of credibility proxy using the number of ``thanks''. A user's credibility can be damaged if their posts do not directly help with predicting the correct side effects. 
 %These posts can be questions 
-This assumption is questionable when users are asking for some information instead of giving answers without any intend to give misleading information. 
+This assumption is questionable when users are asking for some information instead of giving answers without any intent to give misleading information. 
 %We observe that there are also cases 
 In contrast, we also observe the cases where users receive thanks for giving helpful information such as suggesting nutritious diet or healthy lifestyle without mentioning any relevant side effects. We recognize the limitation of our model where users without malicious intent are possibly assigned a low credibility score. This case of ``failure'' can explain why some users are assigned low to moderate credibility despite their high number of ``thanks''. However, our definition makes sure that the credibility learning mechanism does not express the opposite adverse behavior of assigning high credibility to untrustworthy users.
 
 % Hoang - JBMS-minor R3P4:
-We realize the limitation arisen from annotating a post's side effects solely from looking up the mentioned drugs in the Mayo Clinic database. To generalize the usability and ensure the effectiveness of the learning framework to a broader community such as Medical informatics, we suggest to have these annotations cross-checked with healthcare professionals or pharmacovigilance experts, in order to ensure the correlation between Mayo Clinic's annotations and the post's actually described side effects.
+We realize the limitation arisen from annotating a post's side effects solely from looking up the mentioned drugs in the Mayo Clinic database. To generalize the usability and ensure the effectiveness of the learning framework to a broader community such as medical informatics, we suggest to have these annotations cross-checked with healthcare professionals or pharmacovigilance experts, in order to ensure the correlation between Mayo Clinic's annotations and the post's actually described side effects.
 
 Overall, our analysis suggests that user credibility scores, although learned in a self-supervised manner, can capture the expected notion of credibility and are descriptive of trustworthiness. Every component of our architecture is also shown to be vital in achieving the highest performance.
 
@@ -790,7 +792,7 @@ We believe that our model is applicable to other domains. We plan to generalize 
 \newpage
 \section*{Appendix}
 % Hoang - JBMS-minor R2P3: rewrite this section of the appendix to demonstrate the correlation between learned user credibility scores and the general notion of trustworthiness
-\subsection{User Credibility Weighting and the general principle of truth discovery}~\label{appendix:math}
+\subsection{User credibility weighting and the general principle of truth discovery}~\label{appendix:math}
 In order to demonstrate the correlation between learned user credibility scores and the general notion of trustworthiness, we derive how user credibility scores are updated after each turn of back-propagation via stochastic gradient descent.
 The overall loss function in Equation~(\ref{eq:overall_loss}) can be rewritten as logistic loss without regularization on a single training example and a single label $s$ as follows: 
 \begin{equation}
@@ -960,7 +962,7 @@ The source codes used to generate the results of Side Effect Extraction in Secti
     \centering
     \captionsetup{justification=centering}
     \includegraphics[scale=0.5]{lstm.png}
-    \caption{LSTM-based encoder with cluster attention. \\ The ``$\times$'' and ``$+$'' cells denote the attention-weighted summation described in equation~\ref{eq:w_sum}. The ``$\text{C}$'' cell denotes the concatenation of the forward, $\boldsymbol{h^f}$, and backward, $\boldsymbol{h^b}$, hidden states.}
+    \caption{LSTM-based encoder with cluster attention. \\ The ``$\times$'' and ``$+$'' cells denote the attention-weighted summation described in Equation~(\ref{eq:w_sum}). The ``$\text{C}$'' cell denotes the concatenation of the forward, $\boldsymbol{h^f}$, and backward, $\boldsymbol{h^b}$, hidden states.}
     \label{fig:RNNEncoders}
 \end{figure}
 \pagebreak
@@ -968,7 +970,7 @@ The source codes used to generate the results of Side Effect Extraction in Secti
     \centering
     \captionsetup{justification=centering}
     \includegraphics[scale=0.5]{cnn.png}
-    \caption{CNN-based Encoder with Cluster Attention. \\ The ``$\times$'' and ``$+$'' cells denote the attention-weighted summation described in equation~\ref{eq:w_sum}. The ``$\text{C}$'' cell denotes the concatenation of the final hidden states of $K$ convolution blocks.}
+    \caption{CNN-based Encoder with Cluster Attention. \\ The ``$\times$'' and ``$+$'' cells denote the attention-weighted summation described in Equation~\ref{eq:w_sum}. The ``$\text{C}$'' cell denotes the concatenation of the final hidden states of $K$ convolution blocks.}
     \label{fig:CNNEncoders}
 \end{figure}
 \pagebreak
@@ -983,7 +985,7 @@ The source codes used to generate the results of Side Effect Extraction in Secti
     \centering
     \captionsetup{justification=centering}
     \includegraphics[scale=0.6]{k_means.png}
-    \caption{Silhouette scores for User Clustering. \\ The horizontal axis denotes the number of clusters chosen for K-means clustering, while the vertical axis denotes their the silhouette scores. We notice that the silhouette scores drop sharply after $7$ clusters.}
+    \caption{Silhouette scores for User Clustering. \\ The horizontal axis denotes the number of clusters chosen for $K$-means clustering, while the vertical axis denotes their the silhouette scores. We notice that the silhouette scores drop sharply after $7$ clusters.}
     \label{fig:KMeans}
 \end{figure}
 % % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1032,9 +1034,9 @@ The source codes used to generate the results of Side Effect Extraction in Secti
         Cluster & Most common experienced side effects \\ \hline
         $c_{1}$ & vision blurred, yellow skin, vision double, yellow eye, nose stuffy \\
         $c_{2}$ & headache, itch, stomach pain, weak, nausea \\
-        $c_{3}$ & itch, irritate, headache, pain abdominal, "stomach cramp" \\
+        $c_{3}$ & itch, irritate, headache, pain abdominal, stomach cramp \\
         $c_{4}$ & bad taste, nausea, tiredness, irritate, mouth ulcer \\
-        $c_{5}$ & skin red, itch, rash skin, skin peeling, "burning skin" \\
+        $c_{5}$ & skin red, itch, rash skin, skin peeling, burning skin \\
         $c_{6}$ & sneezing, nose runny, nose stuffy, decrease sexual desire, pain breast \\
         $c_{7}$ & nausea, stomach pain, vomit, diarrhea, pain abdominal \\ \hline
     \end{tabular}
